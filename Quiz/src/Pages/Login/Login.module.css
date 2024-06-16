@@ -4,6 +4,10 @@
   background-color: var(--primary-color);
   gap: 50px;
 }
+
+.hover{
+  background-color: red;
+}
 .main > .cont1 {
   height: 700px;
   width: 700px;

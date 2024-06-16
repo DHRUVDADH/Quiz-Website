@@ -16,6 +16,10 @@
 .hover{
   cursor: pointer;
 }
+.selected{
+  background-color: #0477a0;
+}
+
 .flex-center{
   display: flex;
   justify-content: center;
@@ -31,4 +35,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.none{
+  text-decoration: none;
+  color: white;
 }
