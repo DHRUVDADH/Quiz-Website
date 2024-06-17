@@ -2,10 +2,15 @@ import React, { useState } from 'react'
 import s from './Login.module.css'
 import { Link , useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
+import {useDispatch} from "react-redux"
+import { login } from '../../services/operation/authApi';
+import Loading from "../../Components/Loading/Loading"
 
 const Login = () => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [loading , setLoading] = useState(false);
 
   const [data , setData] = useState({
     email:"",
@@ -26,6 +31,7 @@ const Login = () => {
       toast.error("Please Fill All the Fieldfs")
       return;
     }
+    dispatch(login(data.email , data.password , setLoading , navigate , dispatch))
   }
 
   return (
@@ -35,19 +41,10 @@ const Login = () => {
           <img src="./Assets/Charusat-Logo.png" />
         </div>
         <div className={s.sub2}>Continue your learning journey with Charusat</div>
-        <div className={`${s.sub3} flex-center`}>
-          <div className={`hover ${s.item}`}>
-            <div className={s.icon}>
-              <img src="./Assets/tutor.svg" />
-            </div>
-            <div className={s.text}>Sign in as a Tutor</div>
-          </div>
-          <div className={`hover ${s.item}`}  onClick={()=>console.log('Clicked')}>
-            <div className={s.icon}>
-              <img src="./Assets/student.svg" />
-            </div>
-            <div className={s.text}>Sign in as a Student</div>
-          </div>
+       {
+        loading ? ( <Loading /> ) : (
+          <>
+             <div className={`${s.sub3} flex-center`}>
           <div className={`hover ${s.item}`} onClick={()=>navigate('/signup')}>
             <div className={s.icon}>
               <img src="./Assets/signup.svg" />
@@ -73,6 +70,9 @@ const Login = () => {
             </div>
           </div>
         </form>
+          </>
+         )
+       }
       </div>
       <div className={`flex-center ${s.cont2}`}>
         <img src="./Assets/loginimage.png" />

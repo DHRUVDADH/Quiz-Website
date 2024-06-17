@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 import s from './Signup.module.css'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
+import { signUp } from '../../services/operation/authApi';
+import Loading from "../../Components/Loading/Loading"
 
 const Signup = () => {
   const navigate = useNavigate();
 
+  const [loading , setLoading] = useState();
   const [data, setData] = useState({
     password: "",
     email: "",
@@ -43,7 +46,12 @@ const Signup = () => {
       toast.error("Please Fill All the Fieldfs")
       return;
     }
-    console.log(data)
+    signUp(data.firstname,
+      data.lastname,
+      data.usertype,
+      data.student_id,
+      data.password,
+      data.email,setLoading,navigate)
   }
 
 
@@ -54,12 +62,15 @@ const Signup = () => {
           <img src="./Assets/Charusat-Logo.png" />
         </div>
         <div className={s.sub2}>Continue your learning journey with Charusat</div>
-        <div className={`${s.sub3} flex-center`}>
-          <div className={data.usertype=="tutor" ? (`hover ${s.item} selected`) : (`hover ${s.item}`)} onClick={() => handleType("tutor")}>
+       {
+        loading ? (<Loading />) : (
+          <>
+             <div className={`${s.sub3} flex-center`}>
+          <div className={data.usertype=="faculty" ? (`hover ${s.item} selected`) : (`hover ${s.item}`)} onClick={() => handleType("faculty")}>
             <div className={s.icon}>
               <img src="./Assets/tutor.svg" />
             </div>
-            <div className={s.text}>Sign in as a Tutor</div>
+            <div className={s.text}>Sign in as a faculty</div>
           </div>
           <div className={data.usertype=="student" ? (`hover ${s.item} selected`) : (`hover ${s.item}`)} onClick={() => handleType("student")} >
             <div className={s.icon}>
@@ -108,6 +119,9 @@ const Signup = () => {
             </div>
           </div>
         </form>
+          </>
+        )
+       }
       </div>
       <div className={`flex-center ${s.cont2}`}>
         <img src="./Assets/loginimage.png" />

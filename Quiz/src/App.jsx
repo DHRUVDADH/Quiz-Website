@@ -7,19 +7,26 @@ import Signup from './Pages/SignUp/Signup'
 import NavbarTutor from './Components/NavbarTutor/NavbarTutor'
 import TutorDashboard from './Pages/TutorDashboard/TutorDashboard'
 import ResetPassword from './Pages/ResetPassword/ResetPassword'
-import mySvg from "../public/Assets/tutor.svg"
+import OpenRoute from './Components/Auth/OpenRoute'
+import FacultyRoute from './Components/Auth/FacultyRoute'
 
 import './App.css'
+import StudentRoute from './Components/Auth/StudentRoute'
 
 const App = () => {
   return (
     <div className='mainContainer'>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/tutor" element={<TutorDashboard />} />
-        <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/login" element={<OpenRoute><Login /></OpenRoute>} />
+        <Route path="/signup" element={<OpenRoute><Signup /></OpenRoute>} />
+        <Route path="/resetpassword" element={<OpenRoute><ResetPassword /></OpenRoute>} />
+        
+        <Route path="/faculty" element={<FacultyRoute><TutorDashboard /></FacultyRoute>} >
+          <Route path="/faculty" element={<>I AM Nishant</>} />
+          <Route path="/faculty/dhruv" element={<>I AM Dhruv</>} />
+        </Route>
+
       </Routes>
     </div>
   )

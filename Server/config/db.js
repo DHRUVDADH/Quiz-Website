@@ -3,7 +3,7 @@ const mongoose=require('mongoose')
 
 const dbconnect=async ()=>{
     try {
-        await mongoose.connect("mongodb://localhost:27017/quiz").then(()=>{
+        await mongoose.connect("mongodb://127.0.0.1:27017/quiz").then(()=>{
             console.log("database connected succesfully")
         })
     } catch (e) {

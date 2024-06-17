@@ -1,20 +1,18 @@
 const User=require('../model/user.model');
 const { ApiError } = require('../utils/ApiError');
-const {uploadoncloudinary}=require('../config/cloudinary')
 const bcrypt=require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const tokengenerater=async (userid)=>{
+const tokengenerater=async (user)=>{
     try {
-        const user=await User.findById(userid);
-        console.log(user)
-        const token=await jwt.sign({
-            _id:userid,
+       
+        const token = await jwt.sign({
+            _id:user._id,
             student_id:user.student_id,
             email:user.email,
             usertype:user.usertype
         },
-        "kol",
+        process.env.JWT_SECRET,
         {
             expiresIn:'15d'
         }
@@ -32,6 +30,10 @@ const ispasswordcorrect=async(password,userpassword)=>{
 const signup = async (req,res) =>{
     try {
         const {password,email,firstname,lastname,usertype,student_id}=req.body;
+
+        if ( !firstname|| !lastname || !usertype|| !student_id || !password || !email ) {
+            throw new ApiError(409,'All Field required')
+          }
         
         const existone = await User.findOne({
             $or:[{student_id},{email}]
@@ -53,57 +55,60 @@ const signup = async (req,res) =>{
 
         if(!user) throw new ApiError(500,"user not created due to server error")
         
-        const createduser = await User.findById(user._id).select("-password ")
-
         return res.json({
             success:true,
             message:"user signup successfully"
         })
 
     } catch (e) {
-        console.log("error while sign up controller",e)
+        res.json({
+           ...e,
+           message: e.message
+        })
     }
 }
 
 const login=async (req,res)=>{
     try {
-        const {email,password}=req.body;
-        
-        if(!email){
-            throw new ApiError(300,"please enter email")
-        }
-        
-        const user=await User.findOne({email:email})
-        
-        if(!user)
-            {
-                throw new ApiError(404,"User not exiest")
-            }
-        const ispasswordvalid= await ispasswordcorrect(password,user.password)
-        
-        if(ispasswordvalid===false)
-            {
-                // throw new ApiError(401,"incorrect password")
-                return res.json({
-                    success:false,
-                    message:"password is incorrect"
-                })
-            }
 
-        const atoken = await tokengenerater(user._id);
-        user.accesstoken=atoken;
-        user.save({validateBeforeSave:false})
-        return res
-        .status(200)
-        .cookie("atoken",atoken,{httpOnly:true,secure:true})
-        .json({
-            success:true,
-            message:"User login succesfully"
-        })
-        
+        const { email, password } = req.body;
+        if (!email) {
+            throw new ApiError(300, "please enter email");
+        }
+
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            throw new ApiError(404, "User not exiest");
+        }
+
+        const ispasswordvalid = await ispasswordcorrect( password, user.password );
+        if (ispasswordvalid === false) {
+            throw new ApiError(401,"incorrect password")
+        }
+
+        const token = await tokengenerater(user);
+        user.token = token;
+        user.password = undefined;
+    
+        const options = {
+            expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
+            httpOnly: true,
+            secure:true,
+        };
+
+        res.cookie("token", token, options);
+        return res.status(200).json({
+            success: true,
+            token,
+            user,
+            message: "Logged in successfully",
+        });
 
     } catch (e) {
-        console.log("error while login",e)
+        res.json({
+            ...e,
+            message: e.message
+         })
     }
 }
 
