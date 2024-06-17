@@ -9,7 +9,7 @@ import ResetPassword from './Pages/ResetPassword/ResetPassword'
 const App = () => {
   return (
     <div className='mainContainer'>
-      <div><ResetPassword/></div>
+      <div><TutorDashboard/></div>
     </div>
   )
 }
