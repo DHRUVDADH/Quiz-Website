@@ -62,8 +62,8 @@ const signup = async (req,res) =>{
 
     } catch (e) {
         res.json({
-           ...e,
-           message: e.message
+            ...e,
+            message: e.message
         })
     }
 }
@@ -109,26 +109,6 @@ const login=async (req,res)=>{
             ...e,
             message: e.message
          })
-    }
-}
-
-const logout=async (req,res)=>{
-    try {
-        const user=req.user;
-        if(!user){
-            throw new ApiError(500,"user not found in logout")
-        }
-        user.accesstoken="";
-        user.save({validateBeforeSave:false})
-        console.log(user)
-        return res
-        .status(200)
-        .json({
-            success:true,
-            message:"User logout successfully"
-        })
-    } catch (e) {
-        console.log("error in logout controller",e)
     }
 }
 
@@ -197,7 +177,6 @@ const getdetail = async (req,res)=>{
 module.exports={ 
     signup,
     login,
-    logout,
     updatedetail,
     resetpassword,
     getdetail

@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import s from './QuizModal.module.css'
 import Loading from '../Loading/Loading';
 import { toast } from 'react-toastify'
+import { careteQuiz } from "../../services/operation/quiz"
 
 const QuizModal = ({ closeModal }) => {
 
-  const randomCode = "AAAA1111";
   const [codeModal, setCodeModal] = useState();
   const [loading, setLoading] = useState(false);
   
@@ -13,10 +13,12 @@ const QuizModal = ({ closeModal }) => {
     title: '',
     durationInMins: 15,
     noOfQuestion: 5,
-    totalScore: 1,
+    totalmarks: 1,
     description: '',
     date: '',
-    time: ''
+    time: '',
+    subId:'',
+    subName:''
   })
 
   const closeCodeModal = () => { setCodeModal(false) };
@@ -45,9 +47,19 @@ const QuizModal = ({ closeModal }) => {
     }
 
     // Score per question validation (required field, must be a positive integer)
-    const totalScore = parseInt(formData.totalScore);
-    if (isNaN(totalScore) || totalScore <= 0) {
+    const totalmarks = parseInt(formData.totalmarks);
+    if (isNaN(totalmarks) || totalmarks <= 0) {
       toast.error("Score per question must be a positive number")
+      return false;
+    }
+
+    if (!formData.subId.trim()) {
+      toast.error("Subject Id Required")
+      return false;
+    }
+
+    if (!formData.subName.trim()) {
+      toast.error("Subject Name is Required")
       return false;
     }
 
@@ -104,13 +116,12 @@ const QuizModal = ({ closeModal }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    
     if (validateForm(data)) {
-      toast.success("Got Through Validation")
+      toast.success("Got Through Validation");
+      careteQuiz(data.time , data.durationInMins , data.noOfQuestion , data.totalmarks , data.description , data.date , data.time , data.subId , data.subName , setLoading , setCodeModal);
+      return ;
     }
-
-  setCodeModal(true)
-
-
   }
 
 
@@ -122,10 +133,6 @@ const QuizModal = ({ closeModal }) => {
             <div className={s.sub1}><img src="./Assets/popuptick.svg" /></div>
             <div className={s.sub2}>
               <div className={s.child1}>Quiz was successfully created</div>
-              <div className={s.child2}>
-                <div className={s.item1}>CODE:</div>
-                <div className={s.item2}>{randomCode}</div>
-              </div>
             </div>
             <button onClick={() => { closeCodeModal(); closeModal(); }} className={s.sub3}>Close</button>
           </div>
@@ -156,15 +163,15 @@ const QuizModal = ({ closeModal }) => {
                       </div>
                       <div className={s.child}>
                         <label htmlFor="marks">Total Score</label>
-                        <input type="number" id='marks' name='totalScore' onChange={changeHandler} value={data.totalScore} className={s.input} />
+                        <input type="number" id='marks' name='totalmarks' onChange={changeHandler} value={data.totalmarks} className={s.input} />
                       </div>
                       <div className={s.child}>
                         <label htmlFor="subid">Subject Id</label>
-                        <input type="number" id='subid' name='subid' onChange={changeHandler} value={data.subid} className={s.input} />
+                        <input type="number" id='subid' name='subId' onChange={changeHandler} value={data.subId} className={s.input} />
                       </div>
                       <div className={s.child}>
                         <label htmlFor="subname">Subject Name</label>
-                        <input type="text" id='subname' name='subname' onChange={changeHandler} value={data.subname} className={s.input} />
+                        <input type="text" id='subname' name='subName' onChange={changeHandler} value={data.subName} className={s.input} />
                       </div>
                       <div className={s.child}>
                         <label htmlFor="desc">Description</label>
