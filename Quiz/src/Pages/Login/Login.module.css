@@ -1,12 +1,19 @@
 .main {
   height: 100vh;
   width: 100vw;
+  padding-top: 20px;
+  margin: 0;
   background-color: var(--primary-color);
   gap: 50px;
+  overflow: hidden;
+}
+
+.hover{
+  background-color: red;
 }
 .main > .cont1 {
   height: 700px;
-  width: 700px;
+  width: 50%;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
@@ -154,7 +161,7 @@
 }
 .main > .cont2 {
   height: 650px;
-  width: 650px;
+  width: 40%;
   background-color: var(--white-color);
   border-radius: 25px;
 }
