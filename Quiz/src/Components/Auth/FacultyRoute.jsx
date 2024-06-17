@@ -11,7 +11,7 @@ const FacultyRoute = ({children}) => {
     } else {
       return (
         <>
-          <Navigate to={`/${user.usertype}`} replace={true} />
+          <Navigate to={`/login`} replace={true} />
         </>
       );
     }

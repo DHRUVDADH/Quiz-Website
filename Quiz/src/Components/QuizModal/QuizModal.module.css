@@ -7,6 +7,31 @@
   backdrop-filter: opacity(20%);
   background-color: rgba(0, 0, 0, 0.6);
 }
+.input:focus{
+  border: none;
+  outline: none;
+}
+.child{
+  padding: 10px !important;
+}
+.child:has(> .input:focus)
+{ 
+  border: 1px solid black !important;
+}
+
+#desc{
+  resize:none !important;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button,
+input[type=number] {
+  -webkit-appearance: none;
+  margin: 0; 
+}
+
+
+
 .main > .container1 {
   height: 600px;
   width: 900px;
