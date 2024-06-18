@@ -1,0 +1,158 @@
+.form {
+  height: fit-content;
+  width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.form > .container {
+  padding: 20px 0px;
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  border-bottom: 1px solid rgba(0, 0 , 0 , 0.5);
+}
+.form > .container > .question {
+  position: relative;
+  height: 30px;
+  width: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid rgba(0, 0 , 0 , 0.5);
+  border-radius: 10px;
+}
+.form > .container > .question > label {
+  position: absolute;
+  top: 0;
+  left:0px;
+  height: 28px;
+  width: fit-content;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 18px;
+  background-color: #caf0f8;
+  border-radius: 10px;
+  z-index: 10;
+  padding-right: 30px;
+  font-weight: 500;
+}
+.form > .container > .question > input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 28px;
+  width: 700px;
+  border: none;
+  border-radius: 10px;
+  padding-left: 45px;
+}
+.form > .container > .options {
+  height: 80px;
+  width: 100%;
+  display: grid;
+  place-content: center;
+  grid-template-rows: 30px 30px;
+  grid-template-columns: 350px 350px;
+  row-gap: 20px;
+  column-gap: 100px;
+}
+.form > .container > .options > .option{
+  position: relative;
+  height: 30px;
+  width:350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid rgba(0, 0 , 0 , 0.5);
+  border-radius: 10px;
+}
+.form > .container > .options > .option > label{
+  position: absolute;
+  top: 0;
+  left:0px;
+  height: 28px;
+  width: fit-content;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 18px;
+  background-color: #caf0f8;
+  border-radius: 10px;
+  z-index: 10;
+  padding-right: 30px;
+  font-weight: 500;
+}
+.form > .container > .options > .option > input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 28px;
+  width: 260px;
+  border: none;
+  border-radius: 10px;
+  padding-left: 35px;
+}
+.form > .container > .correctanswer{
+  position: relative;
+  height: 30px;
+  width:350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid rgba(0, 0 , 0 , 0.5);
+  border-radius: 10px;
+}
+.form > .container > .correctanswer > label{
+  position: absolute;
+  top: 0;
+  left:0px;
+  height: 28px;
+  width: fit-content;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 18px;
+  background-color: #caf0f8;
+  border-radius: 10px;
+  z-index: 10;
+  padding-right: 30px;
+  font-weight: 500;
+}
+.form > .container > .correctanswer > input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 28px;
+  width: 200px;
+  border: none;
+  border-radius: 10px;
+  padding-left: 35px;
+}
+.form > .container > .deletebtn , .form > .btns > .addquesbtn , .form > .btns > .submitbtn{
+  height: 30px;
+  width: 100px;
+  display: grid;
+  place-content: center;
+  background-color: #caf0f8;
+  border: none;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0 , 0 , 0.5);
+  font-weight: 600;
+}
+.form > .btns {
+  height: 32px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}

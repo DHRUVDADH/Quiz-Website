@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import s from './QuizModal.module.css'
 import Loading from '../Loading/Loading';
 import { toast } from 'react-toastify'
+import QuestionAdd from '../QuestionAdd/QuestionAdd';
 
 const QuizModal = ({ closeModal }) => {
 
@@ -180,7 +181,9 @@ const QuizModal = ({ closeModal }) => {
                       </div>
                     </div>
                   </div>
-                  <div className={s.cont3}></div>
+                  <div className={s.cont3}>
+                    <QuestionAdd></QuestionAdd>
+                  </div>
                 </>
               )
             }
