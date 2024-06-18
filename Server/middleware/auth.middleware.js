@@ -1,17 +1,15 @@
-const jwt=require('jsonwebtoken')
-const ApiError=require('../utils/ApiError')
+const jwt = require('jsonwebtoken')
+const {ApiError} = require('../utils/ApiError')
 const User=require('../model/user.model')
 
 const verifyjwt=async (req,res,next)=>{
     try {
-        const usertoken=await req.cookies.atoken || req.header("Authorization")?.replace("Bearer ","");
-        if(!usertoken)
-            {
+        const usertoken = await req.cookies.token || req.header("Authorization")?.replace("Bearer ","");
+        if(!usertoken){
                 throw new ApiError(401,"token not found")
             }
         
-        const decodetoken=await jwt.verify(usertoken,"kol")
-        console.log("decode token ->",decodetoken)
+        const decodetoken = await jwt.verify(usertoken,process.env.JWT_SECRET)
         const user=await User.findById(decodetoken?._id)
 
         if(!user){
@@ -30,4 +28,52 @@ const verifyjwt=async (req,res,next)=>{
     }
 }
 
-module.exports={verifyjwt}
+const verifyFaculty=async (req,res,next)=>{
+    try {
+
+        if(!req.user){
+            throw new ApiError(401,"Can't Get User In req")
+        }
+
+        if(req.user.userType !=="faculty"){
+            throw new ApiError(401,"You are Not Faculty")
+        }
+
+        next();
+        
+    } catch (e) {
+        console.log("error while verify json web token",e)
+        res
+        .status(500)
+        .json({
+            success:false,
+            message:"token not verify succesfully due to server error"
+        })
+    }
+}
+
+const verifyStudent=async (req,res,next)=>{
+    try {
+
+        if(!req.user){
+            throw new ApiError(401,"Can't Get User In req")
+        }
+
+        if(req.user.userType !=="student"){
+            throw new ApiError(401,"You are Not Student")
+        }
+        
+        next();
+        
+    } catch (e) {
+
+        res
+        .status(500)
+        .json({
+            success:false,
+            message:"token not verify succesfully due to server error"
+        })
+    }
+}
+
+module.exports={verifyjwt , verifyFaculty , verifyStudent}
