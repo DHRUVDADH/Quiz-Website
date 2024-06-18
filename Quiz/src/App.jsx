@@ -13,6 +13,7 @@ import FacultyRoute from './Components/Auth/FacultyRoute'
 import './App.css'
 import StudentRoute from './Components/Auth/StudentRoute'
 import QuestionAdd from './Components/QuestionAdd/QuestionAdd'
+import MainComponent from './Components/MainComponent/MainComponent'
 
 const App = () => {
   return (

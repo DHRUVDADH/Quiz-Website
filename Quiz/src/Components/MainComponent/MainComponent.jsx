@@ -2,6 +2,7 @@ import React from 'react'
 import s from "./MainComponent.module.css"
 
 const MainComponent = () => {
+  const number = 10;
   return (
     <div>
       <div className={s.main1}>
