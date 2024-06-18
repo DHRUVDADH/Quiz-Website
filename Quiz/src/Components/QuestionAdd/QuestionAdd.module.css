@@ -40,7 +40,7 @@
   padding-left: 18px;
   background-color: #caf0f8;
   border-radius: 10px;
-  z-index: 10;
+  /* z-index: 10; */
   padding-right: 30px;
   font-weight: 500;
 }
@@ -87,7 +87,7 @@
   padding-left: 18px;
   background-color: #caf0f8;
   border-radius: 10px;
-  z-index: 10;
+  /* z-index: 10; */
   padding-right: 30px;
   font-weight: 500;
 }
@@ -124,7 +124,6 @@
   padding-left: 18px;
   background-color: #caf0f8;
   border-radius: 10px;
-  z-index: 10;
   padding-right: 30px;
   font-weight: 500;
 }

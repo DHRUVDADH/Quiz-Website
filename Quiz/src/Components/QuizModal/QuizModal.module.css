@@ -1,7 +1,9 @@
 .main {
   width: 100vw;
   min-height: 100vh;
-  /* height: fit-content; */
+  position: absolute;
+  top:0;
+  left:0;
   display: grid;
   place-content: center;
   z-index: 10;
