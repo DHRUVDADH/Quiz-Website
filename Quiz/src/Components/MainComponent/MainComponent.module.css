@@ -1,0 +1,144 @@
+
+.main1{
+  height: 100vh;
+  width: 250px;
+  border-right: 1px solid rgba(0, 0 , 0, 0.2) ;
+  position: fixed;
+}
+.main1 > div {
+  padding-left: 35px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+.main1 > div > .text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  /* color: #003459; */
+}
+.main1 > .cont1{
+  padding-left: 0px;
+  height: 80px;
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0 , 0, 0.2);
+  display: grid;
+  place-content: center;
+}
+.main1 > .cont1 > img{
+  height: 50px;
+  width: fit-content;
+}
+.main1 > .cont2,.cont3,.cont4{
+  height: 80px;
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0 , 0, 0.2);
+}
+.main1 > .cont5{
+  height: calc(100vh - 400px);
+  width: 100%;
+  align-items: flex-start;
+  padding-top: 25px;
+}
+.main1 > .cont5 > .text {
+  height: 45px;
+  display: grid;
+  place-content: center;
+}
+.main1 > .cont6{
+  height: 80px;
+  width: 100%;
+  border-top: 1px solid rgba(0, 0 , 0, 0.2);
+}
+
+/* =================== */
+.main2{
+  height: 80px;
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0 , 0, 0.2);
+  display: flex;
+  flex-direction: row;
+}
+.main2 > .item1{
+  width: 700px;
+  height: 100%;
+  gap: 360px;
+  border-right: 1px solid rgba(0, 0 , 0, 0.2);
+}
+.main2 > .item1 > .child1{
+  font-size: 20px;
+  font-weight: 600;
+}
+.main2 > .item1 > .child2{
+  height: 40px;
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  border-radius: 25px;
+  border: 1px solid rgba(0, 0 , 0, 0.2);
+}
+.main2 > .item1 > .child2 > img {
+  height: 25px;
+  width: 25px;
+}
+.main2 > .item1 > .child2 > .text{
+  font-weight: 500;
+}
+.main2 > .item2, .item3{
+  height: 100%;
+  width: 100px;
+  border-right: 1px solid rgba(0, 0 , 0, 0.2);
+}
+.main2 > .item2 ,.item3{
+  display: grid;
+  grid-template: 1fr / 1fr;
+  place-items: center;
+}
+.main2 > .item2 > *,.item3 > * {
+  grid-column: 1 / 1;
+  grid-row: 1 / 1;
+}
+.main2 > .item2 > .wrap , .item3 > .wrap{
+  height: 35px;
+  width: 40px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: start;
+} 
+.main2 > .item2 > .wrap > .number  ,  .item3 > .wrap > .number{
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  display: grid;
+  place-content: center;
+  background-color: #C5D86D;
+  color: var(--white-color);
+}
+.main2 > .item4{
+  height: 100%;
+  width: calc(100% - 900px);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  padding-left: 30px;
+}
+.main2 > .item4 > .wrap {
+  height: fit-content;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+}
+.main2 > .item4 > .wrap > .name{
+  font-size: 1.1rem;
+}
+.main2 > .item4 > .wrap > .type{
+  font-size: 0.85rem;
+  color: #C5D86D;
+  font-weight: 600;
+}
