@@ -48,6 +48,7 @@ input[type=number] {
   display: flex;
   flex-direction: row;
   border: 1px solid rgba(0, 0, 0, 0.3);
+  z-index: var(7);
 }
 .main > .container1 > .cont1 > .sub1 {
   height: 100%;

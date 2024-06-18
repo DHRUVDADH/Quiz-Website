@@ -13,14 +13,14 @@ const TutorDashboard = () => {
   return (
     <div className={s.container}>
       <div className={s.main}>
-      <div className={s.cont1}>
+        <div className={s.cont1}>
           <NavbarTutor></NavbarTutor>
         </div>
         <div className={s.cont2}>
           <div className={s.sub1}>
             <div className={`flex-center ${s.item1}`}>
               <div className={s.child1}>Dashboard</div>
-              <div onClick={() => setShowmodal(true)}  className={s.child2}>
+              <div onClick={() => setShowmodal(true)} className={s.child2}>
                 <img src="../../Assets/newquizicon.svg" />
                 <div className={s.text}>New quiz</div>
               </div>
@@ -50,7 +50,7 @@ const TutorDashboard = () => {
           </div>
         </div>
       </div>
-      {showmodal && <QuizModal closeModal = {closeModal} className={s.quizModal} />}
+      {showmodal && <QuizModal closeModal={closeModal} className={s.quizModal} />}
     </div>
   )
 }
