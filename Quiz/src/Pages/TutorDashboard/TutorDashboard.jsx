@@ -25,18 +25,6 @@ const TutorDashboard = () => {
                 <div className={s.text}>New quiz</div>
               </div>
             </div>
-            <div className={s.item2}>
-              <img src="../../Assets/blue-mail.svg" />
-              <div className={s.wrap}>
-                <div className={s.number}>{number}</div>
-              </div>
-            </div>
-            <div className={s.item3}>
-              <img src="../../Assets/blue-bell.svg" />
-              <div className={s.wrap}>
-                <div className={s.number}>{number}</div>
-              </div>
-            </div>
             <div className={s.item4}>
               <div className={s.wrap}>
                 <div className={s.name}>Dhruv Dadhania</div>

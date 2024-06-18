@@ -24,7 +24,7 @@ const App = () => {
         <Route path="/resetpassword" element={<OpenRoute><ResetPassword /></OpenRoute>} />
         
         <Route path="/faculty" element={<FacultyRoute><TutorDashboard /></FacultyRoute>} >
-          <Route path="/faculty" element={<QuestionAdd></QuestionAdd>} />
+          <Route path="/faculty" element={<QuestionAdd />} />
           <Route path="/faculty/dhruv" element={<>I AM Dhruv</>} />
         </Route>
 

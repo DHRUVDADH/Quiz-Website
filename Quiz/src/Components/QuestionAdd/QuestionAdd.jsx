@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import s from './QuestionAdd.module.css'
 
 const QuestionAdd = () => {
-  const initialQuestionCount = 3; // Initial number of questions
+  const initialQuestionCount = 3; 
   const [questions, setQuestions] = useState(
     Array.from({ length: initialQuestionCount }, () => ({
       question: '',
