@@ -132,6 +132,12 @@ const createQuiz = async (req,res)=>{
         });
 
         if(!quiz) throw new ApiError(500,"Quiz not created due to server error")
+
+        await User.findByIdAndUpdate({_id:req.user._id},{
+            $push:{
+                quizhistory:quiz._id
+            }
+        })
         
         return res.json({
             success:true,
