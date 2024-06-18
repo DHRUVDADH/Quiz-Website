@@ -1,18 +1,15 @@
 import React, { useState } from 'react'
+import QuestionAdd from '../QuestionAdd/QuestionAdd';
 import s from './QuizModal.module.css'
 import Loading from '../Loading/Loading';
 import { toast } from 'react-toastify'
-<<<<<<< HEAD
-import QuestionAdd from '../QuestionAdd/QuestionAdd';
-=======
 import { careteQuiz } from "../../services/operation/quiz"
->>>>>>> 68c5eafe784c0ec8bf14c97cbffbf8c4fe8562a0
 
 const QuizModal = ({ closeModal }) => {
 
-  const [codeModal, setCodeModal] = useState();
+  const [codeModal, setCodeModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   const [data, setData] = useState({
     title: '',
     durationInMins: 15,
@@ -21,8 +18,8 @@ const QuizModal = ({ closeModal }) => {
     description: '',
     date: '',
     time: '',
-    subId:'',
-    subName:''
+    subId: '',
+    subName: ''
   })
 
   const closeCodeModal = () => { setCodeModal(false) };
@@ -120,11 +117,11 @@ const QuizModal = ({ closeModal }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    
+
     if (validateForm(data)) {
       toast.success("Got Through Validation");
-      careteQuiz(data.time , data.durationInMins , data.noOfQuestion , data.totalmarks , data.description , data.date , data.time , data.subId , data.subName , setLoading , setCodeModal);
-      return ;
+      careteQuiz(data.time, data.durationInMins, data.noOfQuestion, data.totalmarks, data.description, data.date, data.time, data.subId, data.subName, setLoading, setCodeModal);
+      return;
     }
   }
 
@@ -133,13 +130,10 @@ const QuizModal = ({ closeModal }) => {
     <div className={s.main}>
       <>
         {codeModal ? (
-          <div className={s.container2}>
-            <div className={s.sub1}><img src="./Assets/popuptick.svg" /></div>
-            <div className={s.sub2}>
-              <div className={s.child1}>Quiz was successfully created</div>
-            </div>
-            <button onClick={() => { closeCodeModal(); closeModal(); }} className={s.sub3}>Close</button>
+          <div className={s.cont}>
+            <QuestionAdd></QuestionAdd>
           </div>
+
         ) : (
           <form className={s.container1} onSubmit={submitHandler}>
             {
@@ -191,9 +185,7 @@ const QuizModal = ({ closeModal }) => {
                       </div>
                     </div>
                   </div>
-                  <div className={s.cont3}>
-                    <QuestionAdd></QuestionAdd>
-                  </div>
+
                 </>
               )
             }
