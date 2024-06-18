@@ -130,9 +130,13 @@ const QuizModal = ({ closeModal }) => {
     <div className={s.main}>
       <>
         {codeModal ? (
-          <div className={s.cont}>
-            <QuestionAdd></QuestionAdd>
+          <div className={s.container2}>
+          <div className={s.sub1}><img src="./Assets/popuptick.svg" /></div>
+          <div className={s.sub2}>
+            <div className={s.child1}>Quiz was successfully created</div>
           </div>
+          <button className={s.sub3}>Close</button>
+        </div>
 
         ) : (
           <form className={s.container1} onSubmit={submitHandler}>

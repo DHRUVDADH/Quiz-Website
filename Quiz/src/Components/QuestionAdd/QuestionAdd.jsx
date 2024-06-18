@@ -41,76 +41,61 @@ const QuestionAdd = () => {
     console.log(questions);
   };
 
-  const [codeModal, setCodeModal] = useState(false);
-  
-  const closeCodeModal = () => { setCodeModal(true) };
   return (
     <>
-      {codeModal ?
-        (<div className={s.container2}>
-          <div className={s.sub1}><img src="./Assets/popuptick.svg" /></div>
-          <div className={s.sub2}>
-            <div className={s.child1}>Quiz was successfully created</div>
-          </div>
-          <button className={s.sub3}>Close</button>
-        </div>
-        )
-        :
-        (<form className={s.form} onSubmit={handleSubmit}>
-          {questions.map((q, index) => (
-            <div className={s.container} key={index} style={{ marginBottom: '20px' }}>
-              <div className={s.question}>
-                <label className={s.queslabel} htmlFor={`question-${index}`}>Question {index + 1}</label>
-                <input
-                  className={s.quesinput}
-                  type="text"
-                  id={`question-${index}`}
-                  name={`question-${index}`}
-                  value={q.question}
-                  onChange={(e) => handleChange(index, e)}
-                  required
-                />
-              </div>
-              <div className={s.options}>
-                {q.options.map((option, optionIndex) => (
-                  <div className={s.option} key={optionIndex}>
-                    <label className={s.optionlabel} htmlFor={`option-${index}-${optionIndex}`}>Option {optionIndex + 1}</label>
-                    <input
-                      className={s.optioninput}
-                      type="text"
-                      id={`option-${index}-${optionIndex}`}
-                      name={`option-${index}-${optionIndex}`}
-                      value={option}
-                      onChange={(e) => handleChange(index, e)}
-                      required
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className={s.correctanswer}>
-                <label className={s.correctlabel} htmlFor={`correctAnswer-${index}`}>Correct Answer</label>
-                <input
-                  className={s.correctinput}
-                  type="text"
-                  id={`correctAnswer-${index}`}
-                  name="correctAnswer"
-                  value={q.correctAnswer}
-                  onChange={(e) => handleChange(index, e)}
-                  required
-                />
-              </div>
-              <button className={s.deletebtn} type="button" onClick={() => deleteQuestion(index)}>Delete</button>
+      <form className={s.form} onSubmit={handleSubmit}>
+        {questions.map((q, index) => (
+          <div className={s.container} key={index} style={{ marginBottom: '20px' }}>
+            <div className={s.question}>
+              <label className={s.queslabel} htmlFor={`question-${index}`}>Question {index + 1}</label>
+              <input
+                className={s.quesinput}
+                type="text"
+                id={`question-${index}`}
+                name={`question-${index}`}
+                value={q.question}
+                onChange={(e) => handleChange(index, e)}
+                required
+              />
             </div>
-          ))}
-          <div className={s.btns}>
-            <button className={s.addquesbtn} type="button" onClick={addQuestion}>
-              Add Question
-            </button>
-            <button onClick={closeCodeModal} className={s.submitbtn} type="submit">Submit</button>
+            <div className={s.options}>
+              {q.options.map((option, optionIndex) => (
+                <div className={s.option} key={optionIndex}>
+                  <label className={s.optionlabel} htmlFor={`option-${index}-${optionIndex}`}>Option {optionIndex + 1}</label>
+                  <input
+                    className={s.optioninput}
+                    type="text"
+                    id={`option-${index}-${optionIndex}`}
+                    name={`option-${index}-${optionIndex}`}
+                    value={option}
+                    onChange={(e) => handleChange(index, e)}
+                    required
+                  />
+                </div>
+              ))}
+            </div>
+            <div className={s.correctanswer}>
+              <label className={s.correctlabel} htmlFor={`correctAnswer-${index}`}>Correct Answer</label>
+              <input
+                className={s.correctinput}
+                type="text"
+                id={`correctAnswer-${index}`}
+                name="correctAnswer"
+                value={q.correctAnswer}
+                onChange={(e) => handleChange(index, e)}
+                required
+              />
+            </div>
+            <button className={s.deletebtn} type="button" onClick={() => deleteQuestion(index)}>Delete</button>
           </div>
-        </form>
-        )
-      }
+        ))}
+        <div className={s.btns}>
+          <button className={s.addquesbtn} type="button" onClick={addQuestion}>
+            Add Question
+          </button>
+          <button className={s.submitbtn} type="submit">Submit</button>
+        </div>
+      </form>
     </>
   );
 };
