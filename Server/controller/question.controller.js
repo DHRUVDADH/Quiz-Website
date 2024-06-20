@@ -153,4 +153,28 @@ const createQuiz = async (req,res)=>{
         })
     }
 }
-module.exports = { createQuiz }
+
+const getAllQuizes = async (req,res)=>{
+    try {
+        const user = req.user
+        if(!user._id)
+            {
+                console.log("user not exist")
+                return res.status(404).json({
+                    success:false,
+                    message:"User id not get"
+                })
+            }
+        const quiz = await Quiz.find({crt_by:user._id})
+        console.log("Quiz get by faculty ",quiz)
+        return res.status(200).json({
+            success:true,
+            message:"quiz detail fetch successfully",
+            data:quiz
+        })
+    } catch (e) {
+        console.log("error in getquiz controller",e)
+    }
+}
+
+module.exports = { createQuiz,getAllQuizes }
