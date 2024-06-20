@@ -3,30 +3,42 @@ import { v4 as uuidv4 } from 'uuid';
 import s from './QuestionAdd.module.css';
 
 const QuestionAdd = () => {
-  const initialQuestionCount = 3;
-  const initialQuestions = JSON.parse(localStorage.getItem('questions')) ||
-    Array.from({ length: initialQuestionCount }, () => ({
-      id: uuidv4(),
-      question: '',
-      options: [
-        { key: 'A', ans: '' },
-        { key: 'B', ans: '' },
-        { key: 'C', ans: '' },
-        { key: 'D', ans: '' }
-      ],
-      correctAnswer: '',
-      marks: ''
-    }));
-
-  const [questions, setQuestions] = useState(initialQuestions);
+  const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
-    localStorage.setItem('questions', JSON.stringify(questions));
-  }, [questions]);
+    fetchQuestionsFromAPI();
+  }, []);
+
+  const fetchQuestionsFromAPI = async () => {
+    try {
+      // Replace with your API endpoint
+      const response = await fetch('https://api.example.com/questions');
+      if (!response.ok) {
+        throw new Error('Failed to fetch questions');
+      }
+      const data = await response.json();
+      const initializedQuestions = data.map((q) => ({
+        id: uuidv4(),
+        question: q.question,
+        options: [
+          { key: 'A', ans: q.optionA || '' },
+          { key: 'B', ans: q.optionB || '' },
+          { key: 'C', ans: q.optionC || '' },
+          { key: 'D', ans: q.optionD || '' }
+        ],
+        correctAnswer: q.correctAnswer || '',
+        marks: q.marks || ''
+      }));
+      setQuestions(initializedQuestions);
+    } catch (error) {
+      console.error('Error fetching questions:', error.message);
+      // Handle error (e.g., show error message)
+    }
+  };
 
   const addQuestion = () => {
     const newQuestions = [...questions, {
-      id: uuidv4(), question: '', options: [
+      question: '', options: [
         { key: 'A', ans: '' },
         { key: 'B', ans: '' },
         { key: 'C', ans: '' },

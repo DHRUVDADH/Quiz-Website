@@ -18,7 +18,7 @@ const Tutor = () => {
                 <div className={s.sec2}>
 
                     <div className={s.sub1}>
-
+                       
                         <div className={`flex-center ${s.item1}`}>
                             <div className={s.child1}>Dashboard</div>
                         </div>
