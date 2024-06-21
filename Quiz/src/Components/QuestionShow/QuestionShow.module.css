@@ -1,0 +1,31 @@
+.questionContainer {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.questionBlock {
+  margin-bottom: 20px;
+}
+
+.question {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.optionsList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.option {
+  margin-bottom: 5px;
+}
+
+.marks {
+  font-weight: bold;
+  color: #555;
+}

@@ -1,6 +1,6 @@
 const {Schema, default: mongoose}=require('mongoose')
 const bcrypt=require('bcrypt')
-const Question = require('./question.model')
+const Quiz = require('./quiz.model')
 const Result = require('./result.model')
 
 require('dotenv').config()
@@ -31,7 +31,7 @@ const userSchema=new Schema({
     },
     quizhistory:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:Question
+        ref:Quiz
     }],
     resulthistory:[{
         type:mongoose.Schema.Types.ObjectId,
@@ -39,7 +39,6 @@ const userSchema=new Schema({
     }],
     student_id:{
         type:String,
-        require:true
     }
 },{timestamps:true})
 

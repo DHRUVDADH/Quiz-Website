@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import { signUp } from '../../services/operation/authApi';
 import Loading from "../../Components/Loading/Loading"
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -58,9 +59,11 @@ const Signup = () => {
   return (
     <div className={`${s.main} flex-center`}>
       <div className={`flex-center ${s.cont1}`}>
-        <div className={`hover ${s.sub1}`}>
-          <img src="./Assets/Charusat-Logo.png" />
-        </div>
+      <Link to="/">
+          <div className={`hover ${s.sub1}`}>
+            <img src="./Assets/Charusat-Logo.png" />
+          </div>
+        </Link>
         <div className={s.sub2}>Continue your learning journey with Charusat</div>
        {
         loading ? (<Loading />) : (

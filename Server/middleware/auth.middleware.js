@@ -34,8 +34,8 @@ const verifyFaculty=async (req,res,next)=>{
         if(!req.user){
             throw new ApiError(401,"Can't Get User In req")
         }
-
-        if(req.user.userType !=="faculty"){
+        console.log(req.user)
+        if(req.user.usertype !=="faculty"){
             throw new ApiError(401,"You are Not Faculty")
         }
 
@@ -59,7 +59,7 @@ const verifyStudent=async (req,res,next)=>{
             throw new ApiError(401,"Can't Get User In req")
         }
 
-        if(req.user.userType !=="student"){
+        if(req.user.usetType !=="student"){
             throw new ApiError(401,"You are Not Student")
         }
         
