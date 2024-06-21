@@ -6,103 +6,6 @@ const {ApiError} = require('../utils/ApiError')
 
 
 
-// const insertquestions = async (req, res) => {
-//     try {
-//         const user = req.user;
-//         if (user.usertype === "student") {
-//             return res.status(401).json({
-//                 success: false,
-//                 message: "not valid for create quiz"
-//             })
-//         }
-//         console.log("quiz token: >", req.cookies.quiztoken)
-//         const quiz_id = await quiztokendecode(req.cookies.quiztoken);
-//         const quizdetail = await Question.findById(quiz_id._id);
-//         console.log("quiz id is->", quizdetail)
-//         const { question, A, B, C, D, answer } = req.body;
-
-//         if (!question || !A || !B || !C || !D || !answer) {
-//             return res.status(400).json({
-//                 success: false,
-//                 message: "enter proper detail of mcq"
-//             })
-//         }
-//         const updatemcq = await quizdetail.multiqueston.push({ question, A, B, C, D, answer });
-//         console.log("updated mcq is:", updatemcq)
-//         console.log("quizdetail: ->", quizdetail)
-//         quizdetail.save({ validateBeforeSave: false })
-//         return res.status(200).json({
-//             success: true,
-//             message: "mcq update successfully"
-//         })
-//     } catch (e) {
-//         console.log("error in insertquestions", e)
-//     }
-// }
-
-// const getquizmcq = async ( req,res ) => {
-//     try {
-//         const quiz=req.quiz;
-//         const getquiz=await Question.findById(quiz?._id)
-//         if(!getquiz){
-//             return res.status(404).json({
-//                 success:false,
-//                 message:"sorry no quiz active right now"
-//             })
-//         }
-//         // console.log("getquiz is in controller:",getquiz).
-
-//         // console.log("req is in question controller",req)
-//         const loginuser = await User.findById(req.user._id)
-//         if(!loginuser)
-//             {
-//                 console.log("loginuser not available in question controller in getquizmcq error")
-//             }
-//             let quizhistorys = loginuser.quizhistory;
-//             console.log("quiz history",quizhistorys)
-//             if(quizhistorys.includes(req.quiz._id))
-//                 {
-//                     return res.status(200).json({
-//                         success:true,
-//                         message:"quiz mcq get successfully",
-//                         data:getquiz.multiqueston
-//                     })
-//                 }
-//         loginuser.quizhistory.push(req.quiz._id)
-//         loginuser.save({validateBeforeSave:false})
-//         return res.status(200).json({
-//             success:true,
-//             message:"quiz mcq get successfully",
-//             data:getquiz.multiqueston
-//         })
-        
-//     } catch (e) {
-//         console.log("error in getquizdetail controller",e)
-//     }
-// }
-
-// const quizstart = async ( req,res ) => {
-//     try {
-//         const user =req.user;
-//         if(user.usertype === 'student')
-//             {
-//                 return res.status(400).json({
-//                     success:false,
-//                     message:"you are not valid for start quiz"
-//                 })
-//             }
-//         const { quiz_id } = req.body
-//         if(!quiz_id) return res.status(404).json({success:false,message:"quiz id not found"})
-//         const quiz =await Question.findByIdAndUpdate(quiz_id,{is_running:true})
-//             return res.status(200).json({
-//                 success:true,
-//                 message:"detail updated successfully"
-//             })
-//     } catch (e) {
-//         console.log("error in quiz start controller ",e)
-//     }
-// }
-
 const createQuiz = async (req,res)=>{
     try {
         const { title , durationInMins , noOfQuestion , totalmarks , description , date , time , subId , subName}=req.body;
@@ -133,6 +36,18 @@ const createQuiz = async (req,res)=>{
 
         if(!quiz) throw new ApiError(500,"Quiz not created due to server error")
 
+        const questionCollection = Question.create({
+            crt_by:req.user._id,
+            quizID:quiz._id,
+        })
+
+        await Quiz.findByIdAndUpdate({_id:quiz._id},{
+            $set:{
+                questionID:questionCollection._id
+            }
+        })
+
+
         await User.findByIdAndUpdate({_id:req.user._id},{
             $push:{
                 quizhistory:quiz._id
@@ -153,4 +68,200 @@ const createQuiz = async (req,res)=>{
         })
     }
 }
-module.exports = { createQuiz }
+
+const getAllQuizes = async (req,res)=>{
+    try {
+        const user = req.user
+        if(!user._id)
+            {
+                console.log("user not exist")
+                return res.status(404).json({
+                    success:false,
+                    message:"User id not get"
+                })
+            }
+        const quiz = await Quiz.find({crt_by:user._id})
+        console.log("Quiz get by faculty ",quiz)
+        return res.status(200).json({
+            success:true,
+            message:"quiz detail fetch successfully",
+            data:quiz
+        })
+    } catch (e) {
+        res.json({
+            ...e,
+            message: e.message
+        })
+    }
+}
+
+const getQuiz = async (req,res)=>{
+    try {
+        const {quizID}=req.query;
+
+        if (!quizID) {
+            throw new ApiError(409,'Quiz ID required')
+            }
+        
+        const quiz = await Quiz.findOne({
+            _id:quizID,
+            crt_by:req.user._id,
+        }) 
+        
+        if(!quiz){
+            throw new ApiError(409,"You Don't have this Quiz")
+        }
+
+        const question = await Question.findOne({
+            quizID:quiz._id,
+            crt_by:req.user._id,
+        },{questions:1}) 
+
+        if(!question){
+            throw new ApiError(409,"You Don't have this Question")
+        }
+        
+        return res.json({
+            success:true,
+            message:"Quiz Found",
+            quiz : quiz,
+            question:question.questions
+        })
+
+       
+    } catch (e) {
+        res.json({
+            ...e,
+            message: e.message
+        })
+    }
+
+}
+
+const getQuestions = async (req,res)=>{
+    try {
+        const {quizID}=req.query;
+
+        if (!quizID) {
+            throw new ApiError(409,'Quiz ID required')
+            }
+        
+        const existone = await Quiz.findOne({
+            _id:quizID,
+            crt_by:req.user._id,
+
+        }) 
+        
+        if(!existone){
+            throw new ApiError(409,"You Don't have this Quiz")
+        }
+        
+        return res.json({
+            success:true,
+            message:"Quiz Found",
+            quiz : existone
+        })
+
+       
+    } catch (e) {
+        res.json({
+            ...e,
+            message: e.message
+        })
+    }
+
+}
+
+const setQuestions = async (req, res) => {
+  try {
+    const { quizID, questions } = req.body;
+
+    if (!quizID || questions.length == 0) {
+      throw new ApiError(409, "Quiz ID and Question required");
+    }
+
+    if(!validateQuestions(questions)){
+        throw new ApiError(409, "Question missis the field");
+    }
+
+    const existone = await Question.findOneAndUpdate(
+      {
+        quizID: quizID,
+        crt_by: req.user._id,
+      },
+      {
+        $set: {
+          questions: questions,
+        },
+      }
+    );
+
+    if (!existone) {
+      throw new ApiError(409, "You Don't have this Quiz");
+    }
+
+    return res.json({
+      success: true,
+      message: "Quiz Updated",
+      quiz: existone,
+    });
+
+  } catch (e) {
+    res.json({
+      ...e,
+      message: e.message,
+    });
+  }
+};
+
+
+
+const validateQuestions = (questions) => {
+  const errors = [];
+
+  questions.forEach((question, index) => {
+    const { question: q, options, correctAnswer, marks } = question;
+
+    // Validate question field
+    if (!q || typeof q !== 'string' || q.trim().length === 0) {
+      errors.push(`Question ${index + 1} is invalid: Question must be a non-empty string.`);
+    }
+
+    // Validate options
+    if (!Array.isArray(options) || options.length !== 4) {
+      errors.push(`Question ${index + 1} is invalid: Options must be an array of 4 objects.`);
+    } else {
+      options.forEach((option, optionIndex) => {
+        const { key, ans } = option;
+        if (key !== 'A' && key !== 'B' && key !== 'C' && key !== 'D') {
+          errors.push(`Question ${index + 1}, Option ${optionIndex + 1} is invalid: Key must be 'A', 'B', 'C', or 'D'.`);
+        }
+        if (!ans || typeof ans !== 'string' || ans.trim().length === 0) {
+          errors.push(`Question ${index + 1}, Option ${optionIndex + 1} is invalid: Answer must be a non-empty string.`);
+        }
+      });
+    }
+
+    // Validate correctAnswer
+    if (!correctAnswer || typeof correctAnswer !== 'string' || !['A', 'B', 'C', 'D'].includes(correctAnswer)) {
+      errors.push(`Question ${index + 1} is invalid: Correct answer must be 'A', 'B', 'C', or 'D'.`);
+    }
+
+    // Validate marks
+    if (!marks || isNaN(marks) || parseInt(marks) <= 0) {
+      errors.push(`Question ${index + 1} is invalid: Marks must be a positive number.`);
+    }
+  });
+
+  if (errors.length > 0) {
+    return false; // Return false if there are errors
+  } else {
+    return true; // Return true if all questions are valid
+  }
+};
+
+
+
+
+
+module.exports = { createQuiz, getAllQuizes, getQuiz, getQuestions, setQuestions };

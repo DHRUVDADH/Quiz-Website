@@ -1,60 +1,31 @@
-const { Schema, default: mongoose } = require('mongoose')
+const { Schema, default: mongoose } = require("mongoose");
+
+const OptionSchema = new Schema({
+  key: { type: String, required: true },
+  ans: { type: String, required: true },
+});
 
 const multiquestonSchema = new Schema({
-    question: {
-        type: String,
-        require: true
-    },
-    A: {
-        type: String,
-        require: true,
-    },
-    B: {
-        type: String,
-        require: true,
-    },
-    C: {
-        type: String,
-        require: true,
-    },
-    D: {
-        type: String,
-        require: true,
-    },
-    answer: {
-        type: String,
-        enum: ["A", "B", "C", "D"]
-    }
-})
+  id: { type: String, required: true },
+  question: { type: String, required: true },
+  options: { type: [OptionSchema], required: true },
+  correctAnswer: { type: String, required: true },
+  marks: { type: String, required: true },
+});
 
-const questionSchema = new Schema({
-    multiqueston: [
-        multiquestonSchema
-    ],
-    subject: {
-        type: String,
-        require: true
+const questionSchema = new Schema(
+  {
+    questions: [multiquestonSchema],
+    quizID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Quiz",
     },
-    totalquestion:{
-        type: Number,
-        require:true
+    crt_by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
-    department:{
-        type:String,
-        require:true
-    },
-    totalmarks:{
-        type:Number,
-        require:true
-    },
-    crt_by:{
-        type:String,
-        require:true
-    },
-    is_running:{
-        type:Boolean,
-        default:false
-    }
-}, { timestamps: true })
+  },
+  { timestamps: true }
+);
 
-module.exports=mongoose.model("Question",questionSchema)
+module.exports = mongoose.model("Question", questionSchema);

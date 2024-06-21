@@ -42,7 +42,7 @@ const quizSchema = new Schema(
         type: Boolean,
         default: false,
     },
-    question:{
+    questionID:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Question'
     }

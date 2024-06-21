@@ -23,11 +23,11 @@ const App = () => {
         <Route path="/resetpassword" element={<OpenRoute><ResetPassword /></OpenRoute>} />
         
         <Route path="/faculty" element={<FacultyRoute><Tutor /></FacultyRoute>} >
-          <Route path="/faculty" element={<QuestionAdd />} />
-          <Route path="/faculty/dhruv" element={<>I AM Dhruv</>} />
+          <Route path="/faculty" element={<>Data Table Comes Here</>} />
+          <Route path="/faculty/:quizID/addquestion" element={<QuestionAdd />} />
         </Route>
 
-        <Route path='/test' element={<Tutor />} />
+        <Route path='*' element={<h1>Page Not Found</h1>} />
 
       </Routes>
     </div>

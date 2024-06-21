@@ -6,18 +6,22 @@ const NavbarTutor = () => {
   return (
     <div className={s.main}>
       <Link to="/" className={s.main}>
-      <div className={s.cont1}>
-        <img src="../../Assets/Charusat-Logo.png" />
-      </div>
+        <div className={s.cont1}>
+          <img src="../../Assets/Charusat-Logo.png" />
+        </div>
       </Link>
-      <div className={s.cont2}>
-        <img src="../../Assets/dashboard.svg" />
-        <div className={s.text}>Dashboard</div>
-      </div>
-      <div className={s.cont3}>
-        <img src="../../Assets/quizzes.svg" />
-        <div className={s.text}>Quizzes</div>
-      </div>
+      <Link to="/faculty" className={s.main}>
+        <div className={s.cont2}>
+          <img src="../../Assets/dashboard.svg" />
+          <div className={s.text}>Dashboard</div>
+        </div>
+      </Link>
+      <Link className={s.main}>
+        <div className={s.cont3}>
+          <img src="../../Assets/quizzes.svg" />
+          <div className={s.text}>Quizzes</div>
+        </div>
+      </Link>
       <div className={s.cont4}>
         <img src="../../Assets/students.svg" />
         <div className={s.text}>Students</div>
