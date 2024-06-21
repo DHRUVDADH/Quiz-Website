@@ -1,11 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useParams , useNavigate } from 'react-router-dom'
+import { getQuestionEdit , setQuestinos } from "../../services/operation/quiz"
+import Loading from '../Loading/Loading'
+import { toast } from 'react-toastify';
 import s from './QuestionAdd.module.css';
 
 const QuestionAdd = () => {
-  const initialQuestionCount = 3;
-  const initialQuestions = JSON.parse(localStorage.getItem('questions')) ||
-    Array.from({ length: initialQuestionCount }, () => ({
+  const { quizID } = useParams();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [initialQuestionCount, setInitialQuestionCount] = useState(3);
+  const [questions, setQuestions] = useState([]);
+
+
+  useEffect(() => {
+    const localStorageQuestions = JSON.parse(localStorage.getItem(`${quizID}-questions`));
+    if (localStorageQuestions && localStorageQuestions.length > 0) {
+      setQuestions(localStorageQuestions);
+    } else {
+      getQuestionEdit(quizID, setQuestions, setInitialQuestionCount, initializeQuestions, setLoading)
+    }
+  }, []);
+
+  const initializeQuestions = (count) => {
+    const initialQuestions = Array.from({ length: count }, () => ({
       id: uuidv4(),
       question: '',
       options: [
@@ -17,28 +36,42 @@ const QuestionAdd = () => {
       correctAnswer: '',
       marks: ''
     }));
-
-  const [questions, setQuestions] = useState(initialQuestions);
-
-  useEffect(() => {
-    localStorage.setItem('questions', JSON.stringify(questions));
-  }, [questions]);
+    setQuestions(initialQuestions);
+    localStorage.setItem(`${quizID}-questions`, JSON.stringify(initialQuestions));
+  };
 
   const addQuestion = () => {
-    const newQuestions = [...questions, {
-      id: uuidv4(), question: '', options: [
-        { key: 'A', ans: '' },
-        { key: 'B', ans: '' },
-        { key: 'C', ans: '' },
-        { key: 'D', ans: '' }
-      ], correctAnswer: '', marks: ''
-    }];
-    setQuestions(newQuestions);
+    if (questions.length < initialQuestionCount) {
+      const newQuestions = [...questions, {
+        id: uuidv4(), question: '', options: [
+          { key: 'A', ans: '' },
+          { key: 'B', ans: '' },
+          { key: 'C', ans: '' },
+          { key: 'D', ans: '' }
+        ], correctAnswer: '', marks: ''
+      }];
+      setQuestions(newQuestions);
+      localStorage.setItem(`${quizID}-questions`, JSON.stringify(newQuestions));
+    } else {
+
+      const newQuestions = [...questions, {
+        id: uuidv4(), question: '', options: [
+          { key: 'A', ans: '' },
+          { key: 'B', ans: '' },
+          { key: 'C', ans: '' },
+          { key: 'D', ans: '' }
+        ], correctAnswer: '', marks: ''
+      }];
+      setQuestions(newQuestions);
+      localStorage.setItem(`${quizID}-questions`, JSON.stringify(newQuestions));
+    }
+
   };
 
   const deleteQuestion = (index) => {
     const newQuestions = questions.filter((_, i) => i !== index);
     setQuestions(newQuestions);
+    localStorage.setItem(`${quizID}-questions`, JSON.stringify(newQuestions));
   };
 
   const handleChange = (index, optionIndex, event) => {
@@ -56,16 +89,75 @@ const QuestionAdd = () => {
     }
 
     setQuestions(newQuestions);
+    localStorage.setItem(`${quizID}-questions`, JSON.stringify(newQuestions));
+  };
+
+  const validateQuestions = () => {
+    let isValid = true;
+  
+    questions.forEach((question, index) => {
+      const { question: q, options, correctAnswer, marks } = question;
+  
+      if (!q || typeof q !== 'string' || q.trim().length === 0) {
+        toast.error(`Question ${index + 1} is invalid: Question must be a non-empty string.`);
+        isValid = false;
+        return; 
+      }
+  
+      // Validate options
+      if (!Array.isArray(options) || options.length !== 4) {
+        toast.error(`Question ${index + 1} is invalid: Options must be an array of 4 objects.`);
+        isValid = false;
+        return;
+      }
+  
+      // Validate each option
+      options.forEach((option, optionIndex) => {
+        const { key, ans } = option;
+        if (key !== 'A' && key !== 'B' && key !== 'C' && key !== 'D') {
+          toast.error(`Question ${index + 1}, Option ${optionIndex + 1} is invalid: Key must be 'A', 'B', 'C', or 'D'.`);
+          isValid = false;
+          return; 
+        }
+        if (!ans || typeof ans !== 'string' || ans.trim().length === 0) {
+          toast.error(`Question ${index + 1}, Option ${optionIndex + 1} is invalid: Answer must be a non-empty string.`);
+          isValid = false;
+          return; 
+        }
+      });
+  
+      // Validate correctAnswer
+      if (!correctAnswer || typeof correctAnswer !== 'string' || !['A', 'B', 'C', 'D'].includes(correctAnswer)) {
+        toast.error(`Question ${index + 1} is invalid: Correct answer must be 'A', 'B', 'C', or 'D'.`);
+        isValid = false;
+        return; // Exit the current iteration
+      }
+  
+      // Validate marks
+      if (!marks || isNaN(marks) || parseInt(marks) <= 0) {
+        toast.error(`Question ${index + 1} is invalid: Marks must be a positive number.`);
+        isValid = false;
+        return; // Exit the current iteration
+      }
+    });
+  
+    return isValid; // Return the overall validation result
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(questions);
+    if(validateQuestions()){
+      setQuestinos(quizID,questions,setQuestinos,setLoading,navigate);
+    }
   };
 
   return (
     <>
-      <form className={s.form} onSubmit={handleSubmit}>
+     {
+      loading ? (<Loading />) :  (
+        <>
+        <form className={s.form} onSubmit={handleSubmit}>
         {questions.map((q, index) => (
           <div className={s.container} key={index} style={{ marginBottom: '20px' }}>
             <div className={s.question}>
@@ -134,6 +226,9 @@ const QuestionAdd = () => {
           <button className={s.submitbtn} type="submit">Submit</button>
         </div>
       </form>
+        </>
+      )
+     }
     </>
   );
 };

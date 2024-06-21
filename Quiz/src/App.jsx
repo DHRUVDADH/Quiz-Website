@@ -27,7 +27,7 @@ const App = () => {
           <Route path="/faculty/:quizID/addquestion" element={<QuestionAdd />} />
         </Route>
 
-        <Route path='/test' element={<Tutor />} />
+        <Route path='*' element={<h1>Page Not Found</h1>} />
 
       </Routes>
     </div>

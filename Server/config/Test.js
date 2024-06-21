@@ -12,7 +12,7 @@ const QuestionAdd = () => {
   const fetchQuestionsFromAPI = async () => {
     try {
       // Replace with your API endpoint
-      const response = await fetch('https://api.example.com/questions');
+      const response = await fetch('http://localhost:3000/api/v1/quizdetails?quizID=667062c32a01c0c64d7e8f89');
       if (!response.ok) {
         throw new Error('Failed to fetch questions');
       }
