@@ -12,6 +12,7 @@ import OpenRoute from './Components/Auth/OpenRoute'
 import './App.css'
 import FacultyRoute from './Components/Auth/FacultyRoute'
 import StudentRoute from './Components/Auth/StudentRoute'
+import QuestionShow from './Components/QuestionShow/QuestionShow'
 
 const App = () => {
   return (
@@ -23,7 +24,7 @@ const App = () => {
         <Route path="/resetpassword" element={<OpenRoute><ResetPassword /></OpenRoute>} />
         
         <Route path="/faculty" element={<FacultyRoute><Tutor /></FacultyRoute>} >
-          <Route path="/faculty" element={<>Data Table Comes Here</>} />
+          <Route path="/faculty" element={<QuestionShow/>} />
           <Route path="/faculty/:quizID/addquestion" element={<QuestionAdd />} />
         </Route>
 
