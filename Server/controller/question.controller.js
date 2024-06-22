@@ -104,8 +104,7 @@ const getQuiz = async (req,res)=>{
             }
         
         const quiz = await Quiz.findOne({
-            _id:quizID,
-            crt_by:req.user._id,
+            _id:quizID
         }) 
         
         if(!quiz){
@@ -113,8 +112,7 @@ const getQuiz = async (req,res)=>{
         }
 
         const question = await Question.findOne({
-            quizID:quiz._id,
-            crt_by:req.user._id,
+            quizID:quiz._id
         },{questions:1}) 
 
         if(!question){
@@ -140,7 +138,7 @@ const getQuiz = async (req,res)=>{
 
 const getQuestions = async (req,res)=>{
     try {
-        const {quizID}=req.query;
+        const {quizID}=req.body;
 
         if (!quizID) {
             throw new ApiError(409,'Quiz ID required')
@@ -148,18 +146,25 @@ const getQuestions = async (req,res)=>{
         
         const existone = await Quiz.findOne({
             _id:quizID,
-            crt_by:req.user._id,
-
         }) 
         
         if(!existone){
             throw new ApiError(409,"You Don't have this Quiz")
         }
         
+        const questions = await Question.findOne({quizID:quizID})
+        const mcq = questions.questions;
+        
+        for(let i=0;i<mcq.length;i++)
+          {
+            mcq[i].correctAnswer=""
+          }
+        
         return res.json({
             success:true,
             message:"Quiz Found",
-            quiz : existone
+            quiz : existone,
+            mcq : mcq
         })
 
        
