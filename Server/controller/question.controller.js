@@ -219,10 +219,7 @@ const setQuestions = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 774f9e63d11b7086b729623c7c3d33afcbbebf33
 const validateQuestions = (questions) => {
   const errors = [];
 
