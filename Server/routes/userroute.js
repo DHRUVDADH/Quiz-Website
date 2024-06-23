@@ -17,11 +17,6 @@ router.get('/getquestions',verifyjwt,getQuestions)
 
 router.post('/updateanswer',verifyjwt,updateAnswer)
 
-<<<<<<< HEAD
-router.get('/getanswer',verifyjwt,getAnswer)
-
-=======
 router.post('/getanswer',verifyjwt,getAnswer)
 router.post('/quizsubmit',verifyjwt,quizsubmit)
->>>>>>> f54ce6eb971b93ad22d5a608505bc368d3c38f17
 module.exports= router

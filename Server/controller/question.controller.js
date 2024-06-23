@@ -143,6 +143,20 @@ const getQuestions = async (req,res)=>{
         if (!quizID) {
             throw new ApiError(409,'Quiz ID required')
             }
+
+        const user = await User.findById(req.user._id)
+
+        for(let i=0;i<user.quizhistory.length;i++)
+          {
+            if(quizhistory[i] === quizID)
+              {
+                return res.json({
+                  success:false,
+                  message:"you have already submit quiz"
+                })
+              }
+          }
+
         
         const existone = await Quiz.findOne({
             _id:quizID,
