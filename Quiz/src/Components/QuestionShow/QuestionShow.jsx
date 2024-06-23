@@ -1,78 +1,68 @@
-import React, { useState } from 'react';
+// QuestionShow.js
+
+import React, { useEffect, useState } from 'react';
 import styles from './QuestionShow.module.css';
+import Loading from '../Loading/Loading';
+import { useParams } from "react-router-dom";
+import { fetchQuestions , updateAnswer } from '../../services/operation/quiz';
 
 const QuestionShow = () => {
-  const questions = [
+  const { quizID } = useParams();
+  const [questions, setQuestions] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState([]);
+// 
+  useEffect(() => {
+    fetchQuestions(quizID, setQuestions, setSelectedOptions, setLoading);
+  }, [quizID]); 
 
-        {
-          id: "q1",
-          question: "What is the capital of France?",
-          options: [
-            { key: "a", ans: "Berlin" },
-            { key: "b", ans: "Madrid" },
-            { key: "c", ans: "Paris" },
-            { key: "d", ans: "Lisbon" }
-          ],
-          correctAnswer: "c",
-          marks: "1"
-        },
-        {
-          id: "q2",
-          question: "What is the sum of 2 and 3?",
-          options: [
-            { key: "a", ans: "3" },
-            { key: "b", ans: "4" },
-            { key: "c", ans: "5" },
-            { key: "d", ans: "6" }
-          ],
-          correctAnswer: "c",
-          marks: "1"
-        },
-        {
-          id: "q3",
-          question: "Which planet is known as the Red Planet?",
-          options: [
-            { key: "a", ans: "Earth" },
-            { key: "b", ans: "Mars" },
-            { key: "c", ans: "Jupiter" },
-            { key: "d", ans: "Saturn" }
-          ],
-          correctAnswer: "b",
-          marks: "1"
-        }
-      ];
-  const [selectedOptions, setSelectedOptions] = useState(Array(questions.length).fill(null));
-
-  const handleOptionChange = (questionIndex, optionKey) => {
+  const handleOptionChange = (questionIndex, optionKey, questionID) => {
     const newSelectedOptions = [...selectedOptions];
-    newSelectedOptions[questionIndex] = optionKey;
+    newSelectedOptions[questionIndex] = { _id: questionID, ans: optionKey };
     setSelectedOptions(newSelectedOptions);
+    updateAnswer(quizID , questionID , optionKey)
+    console.log(selectedOptions);
   };
 
+
+ 
+
   return (
-    <div className={styles.questionContainer}>
-      {questions.map((q, questionIndex) => (
-        <div key={q.id} className={styles.questionBlock}>
-          <h2 className={styles.question}>{q.question}</h2>
-          <ul className={styles.optionsList}>
-            {q.options.map(option => (
-              <li key={option.key} className={styles.option}>
-                <label>
-                  <input
-                    type="radio"
-                    name={`question-${questionIndex}`}
-                    value={option.key}
-                    checked={selectedOptions[questionIndex] === option.key}
-                    onChange={() => handleOptionChange(questionIndex, option.key)}
-                  />
-                  {option.ans}
-                </label>
-              </li>
-            ))}
-          </ul>
-          <p className={styles.marks}>Marks: {q.marks}</p>
-        </div>
-      ))}
+    <div className={styles.main}>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          {!questions ? (
+            <p>No Questions</p>
+          ) : (
+            <div className={styles.questionContainer}>
+              {questions.map((q, questionIndex) => (
+                <div key={q.id} className={styles.questionBlock}>
+                  <h2 className={styles.question}>{q.question}</h2>
+                  <ul className={styles.optionsList}>
+                    {q.options.map(option => (
+                      <li key={option.key} className={styles.option}>
+                        <label>
+                          <input
+                            type="radio"
+                            name={`question-${questionIndex}`}
+                            value={option.key}
+                            checked={selectedOptions[questionIndex]?.ans === option.key}
+                            onChange={() => handleOptionChange(questionIndex, option.key, q._id)}
+                          />
+                          {option.ans}
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className={styles.marks}>Marks: {q.marks}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };

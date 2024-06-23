@@ -24,9 +24,10 @@ const App = () => {
         <Route path="/resetpassword" element={<OpenRoute><ResetPassword /></OpenRoute>} />
         
         <Route path="/faculty" element={<FacultyRoute><Tutor /></FacultyRoute>} >
-          <Route path="/faculty" element={<QuestionShow/>} />
           <Route path="/faculty/:quizID/addquestion" element={<QuestionAdd />} />
         </Route>
+
+        <Route path="/quiz/:quizID" element={<QuestionShow/>} />
 
         <Route path='*' element={<h1>Page Not Found</h1>} />
 

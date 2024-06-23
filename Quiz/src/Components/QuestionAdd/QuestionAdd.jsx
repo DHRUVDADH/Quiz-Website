@@ -25,7 +25,7 @@ const QuestionAdd = () => {
 
   const initializeQuestions = (count) => {
     const initialQuestions = Array.from({ length: count }, () => ({
-      id: uuidv4(),
+     
       question: '',
       options: [
         { key: 'A', ans: '' },
@@ -43,7 +43,7 @@ const QuestionAdd = () => {
   const addQuestion = () => {
     if (questions.length < initialQuestionCount) {
       const newQuestions = [...questions, {
-        id: uuidv4(), question: '', options: [
+        question: '', options: [
           { key: 'A', ans: '' },
           { key: 'B', ans: '' },
           { key: 'C', ans: '' },
@@ -55,7 +55,7 @@ const QuestionAdd = () => {
     } else {
 
       const newQuestions = [...questions, {
-        id: uuidv4(), question: '', options: [
+        question: '', options: [
           { key: 'A', ans: '' },
           { key: 'B', ans: '' },
           { key: 'C', ans: '' },

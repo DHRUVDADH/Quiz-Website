@@ -1,6 +1,8 @@
 const User = require('../model/user.model')
 const Result =require('../model/result.model')
 const Question =require('../model/question.model')
+const Quiz = require("../model/quiz.model")
+const {ApiError} = require("../utils/ApiError")
 
 const quizsubmit = async (req,res)=>{
     try {
@@ -30,4 +32,91 @@ const quizsubmit = async (req,res)=>{
     }
 }
 
-module.exports={quizsubmit}
+const updateAnswer = async (req,res)=>{
+    try {
+        const {quizID  ,questionID , ansVal}=req.body;
+        if (!quizID || !questionID || ! ansVal) {
+            throw new ApiError(409,'Filled Missing')
+        }
+        
+        const update = {
+            quizID: quizID,
+            studentID: req.user._id,
+            $set: {
+              [`answer.${questionID}`]: ansVal
+            }
+          };
+
+        const options = {
+            upsert: true,
+            new: true, 
+            setDefaultsOnInsert: true, 
+        };
+        
+        const Resu = await Result.findOneAndUpdate(
+            { quizID: quizID, studentID: req.user._id }, 
+            update, 
+            options, 
+        );
+
+        console.log(Resu)
+
+        return res.json({
+            success:true,
+            message:"Quiz Found",
+            Result:Resu
+        })
+
+       
+    } catch (e) {
+        console.log(e)
+        res.json({
+            ...e,
+            message: e.message
+        })
+    }
+}
+
+const getAnswer = async (req,res)=>{
+    try {
+        const {quizID }=req.query;
+        if (!quizID ) {
+            throw new ApiError(409,'Quiz Id Missing')
+        }
+        
+        const update = {
+            $setOnInsert: {  
+              quizID: quizID,
+              studentID: req.user._id,
+            }
+          };
+
+        const options = {
+            upsert: true,
+            new: true, 
+            setDefaultsOnInsert: true, 
+        };
+        
+        const Resu = await Result.findOneAndUpdate(
+            { quizID: quizID, studentID: req.user._id }, 
+            update, 
+            options, 
+        );
+        console.log(Resu)
+
+        return res.json({
+            success:true,
+            message:"Quiz Found",
+            answer:Resu.answer
+        })
+
+    } catch (e) {
+        console.log(e)
+        res.json({
+            ...e,
+            message: e.message
+        })
+    }
+}
+
+module.exports={quizsubmit , updateAnswer}

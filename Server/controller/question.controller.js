@@ -138,7 +138,7 @@ const getQuiz = async (req,res)=>{
 
 const getQuestions = async (req,res)=>{
     try {
-        const {quizID}=req.body;
+        const {quizID}=req.query;
 
         if (!quizID) {
             throw new ApiError(409,'Quiz ID required')
@@ -219,6 +219,10 @@ const setQuestions = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 774f9e63d11b7086b729623c7c3d33afcbbebf33
 const validateQuestions = (questions) => {
   const errors = [];
 

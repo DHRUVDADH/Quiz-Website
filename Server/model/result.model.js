@@ -1,28 +1,24 @@
-const {Schema, default: mongoose} =require('mongoose')
-const Question=require('../model/question.model')
+const { Schema, default: mongoose } = require('mongoose');
+const Question = require('../model/question.model');
 
 const ResultSchema = new Schema({
-    quiz_id:{
-        type:Schema.Types.ObjectId,
-        ref:Question
+    quizID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Quiz",
+        required: true
     },
-    earnmarks:{
-        type:Number,
-        default:0 
+    studentID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
     },
-    user_answers:[
-        {
-        type:String,
-        enum:["A","B","C","D"],
-        default:null
-        }
-    ],
-    totalmark:{
-        type:Number,
-        require:true,
-        default:0
+    earnmarks: {
+        type: Number,
+        default: 0
+    },
+    answer: {
+        type: Schema.Types.Mixed 
     }
+}, { timestamps: true });
 
-},{timestamps:true})
-
-module.exports=mongoose.model("Result",ResultSchema)
+module.exports = mongoose.model("Result", ResultSchema);
