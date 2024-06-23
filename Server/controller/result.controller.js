@@ -15,7 +15,7 @@ const quizsubmit = async (req,res)=>{
             }
         const logindetail=await User.findById(user._id)
         
-        const {earnmarks,user_answers,quiz_id}=req.body
+        const { earnmarks,user_answers,quiz_id }=req.body
         const quizdetail = await Question.findById(quiz_id)
         
         const student_result = await Result.create({earnmarks,user_answers,quiz_id,totalmark:quizdetail.totalmarks})

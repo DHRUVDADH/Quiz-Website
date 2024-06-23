@@ -13,12 +13,14 @@ const ResultSchema = new Schema({
     user_answers:[
         {
         type:String,
-        enum:["A","B","C","D"]
+        enum:["A","B","C","D"],
+        default:null
         }
     ],
     totalmark:{
         type:Number,
-        require:true
+        require:true,
+        default:0
     }
 
 },{timestamps:true})

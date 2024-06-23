@@ -219,8 +219,6 @@ const setQuestions = async (req, res) => {
   }
 };
 
-
-
 const validateQuestions = (questions) => {
   const errors = [];
 
