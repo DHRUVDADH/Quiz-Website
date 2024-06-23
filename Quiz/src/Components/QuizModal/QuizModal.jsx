@@ -22,7 +22,7 @@ const QuizModal = ({ closeModal }) => {
     subName: ''
   })
 
-  const closeCodeModal = () => { setCodeModal(false) };
+  const closeCodeModal = () => { setCodeModal(false); closeModal(false) };
 
   const validateForm = (formData) => {
 
@@ -135,7 +135,7 @@ const QuizModal = ({ closeModal }) => {
           <div className={s.sub2}>
             <div className={s.child1}>Quiz was successfully created</div>
           </div>
-          <button className={s.sub3}>Close</button>
+          <button className={s.sub3} onClick={closeCodeModal}>Close</button>
         </div>
 
         ) : (

@@ -82,3 +82,41 @@ export async function setQuestinos(quizID ,questions, setQuestions,setLoading,na
   setLoading(false);
 }
 
+export async function fetchQuestions(quizID ,setQuestions,setSelectedOptions,setLoading) {
+
+  setLoading(true);
+
+  try {
+    const response = await apiConnector("GET", `http://localhost:3000/api/v1/getquestions?quizID=${quizID}`);
+
+    if (!response.data.success) {
+      throw new Error(response.data.message);
+    }
+    console.log(response.data)
+    setQuestions(response.data.mcq);
+    setSelectedOptions(Array(response.data.mcq.length).fill({ id: null, ans: null }))
+    toast.success("Question updated");
+  } catch (error) {
+    toast.error(error.message);
+    console.error('Error fetching quiz details:', error);
+  }
+  setLoading(false);
+}
+
+
+
+export async function updateAnswer(quizID,questionID , ansVal) {
+
+  try {
+    const response = await apiConnector("POST", `http://localhost:3000/api/v1/updateanswer`,{quizID,questionID , ansVal});
+    if (!response.data.success) {
+      throw new Error(response.data.message);
+    }
+    toast.success("Question updated");
+    localStorage.removeItem(`${quizID}-questions`);
+  } catch (error) {
+    toast.error(error.message);
+    console.error('Error fetching quiz details:', error);
+  }
+
+}
