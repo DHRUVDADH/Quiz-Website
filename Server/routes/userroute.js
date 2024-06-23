@@ -17,6 +17,6 @@ router.get('/getquestions',verifyjwt,getQuestions)
 
 router.post('/updateanswer',verifyjwt,updateAnswer)
 
-router.post('/getanswer',verifyjwt,getAnswer)
+router.get('/getanswer',verifyjwt,getAnswer)
 
 module.exports= router

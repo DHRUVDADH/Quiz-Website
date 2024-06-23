@@ -107,7 +107,7 @@ const getAnswer = async (req,res)=>{
         return res.json({
             success:true,
             message:"Quiz Found",
-            answer:Resu.answer
+            answer:Resu.answer || []
         })
 
     } catch (e) {
@@ -119,4 +119,4 @@ const getAnswer = async (req,res)=>{
     }
 }
 
-module.exports={quizsubmit , updateAnswer}
+module.exports={quizsubmit , updateAnswer,getAnswer}
