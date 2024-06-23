@@ -14,7 +14,7 @@ const ResultSchema = new Schema({
     },
     earnmarks: {
         type: Number,
-        default: 0
+        default: null
     },
     answer: {
         type: Schema.Types.Mixed 
