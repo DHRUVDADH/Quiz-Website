@@ -1,4 +1,7 @@
 const User=require('../model/user.model');
+const Quiz=require('../model/quiz.model');
+const Question=require('../model/question.model')
+const Result=require('../model/result.model')
 const { ApiError } = require('../utils/ApiError');
 const bcrypt=require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -174,10 +177,91 @@ const getdetail = async (req,res)=>{
     }
 }
 
+const student_dashboard = async (req,res)=>{
+    try{
+        if(req.user.usertype!=='student'){
+            return res.status(400).json({
+                success:false,
+                message:"you are not valid author"
+            })
+        }
+        const user = await User.findById(req.user._id)
+        var quizdetail=[];
+        for(let i=0;i<user.quizhistory.length;i++)
+            {
+                let quiz = await Quiz.findById(user.quizhistory[i])
+                quizdetail.push(quiz)
+            }
+        console.log("quiz detail",quizdetail)
+        return res.status(200).json({
+            success:true,
+            message:"student dashboard fetch successfully",
+            quizdetail:quizdetail,
+        })
+
+    }catch(e)
+    {
+        res.status(409).json({
+            success:false,
+            message:"error in student dashboard component"
+        })
+    }
+}
+
+const quiz_response = async (req,res)=>{
+    try{
+        const {quizId} = req.body
+        const user = req.user
+        
+        if(user.usertype!=='student'){
+            const {student_email} = req.body
+            if(!student_email)
+                {
+                    return res.status(404).json({
+                        success:false,
+                        message:"student email not found"
+                    })
+                }
+                const student = await User.findOne({email:student_email})
+                const result_detail = await Result.findOne({$and:[{studentID:student._id},{quizID:quizId}]})
+                return res.status(200).json({
+                    success:true,
+                    message:"quiz result fetch successfully",
+                    resultDetail:result_detail,
+                    quizDetail:quizdetail
+                })
+        }
+        
+        const quizdetail = await Question.findOne({quizID:quizId})
+        if(!quizdetail){
+            return res.status(404).json({
+                success:false,
+                message:"quiz not found"
+            })
+        }
+        const result_detail = await Result.findOne({quizID:quizId})
+        console.log("result detail",result_detail)
+        return res.status(200).json({
+            success:true,
+            message:"quiz result fetch successfully",
+            resultDetail:result_detail,
+            quizDetail:quizdetail
+        })
+    }catch(e){
+        res.status(409).json({
+            success:false,
+            message:"ohh !!! something went wrong"
+        })
+    }
+}
+
+
 module.exports={ 
     signup,
     login,
     updatedetail,
     resetpassword,
-    getdetail
+    getdetail,
+    student_dashboard,
+    quiz_response
 }

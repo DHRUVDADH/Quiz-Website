@@ -1,7 +1,7 @@
 const express=require('express')
 const router=express.Router()
 const {updateAnswer , getAnswer, quizsubmit}  = require("../controller/result.controller")
-const { signup,login}=require('../controller/user.controller')
+const { signup,login, student_dashboard, quiz_response}=require('../controller/user.controller')
 const { verifyjwt , verifyFaculty } = require('../middleware/auth.middleware')
 const { createQuiz,getAllQuizes,getQuiz,setQuestions,getQuestions } = require('../controller/question.controller')
 // const {uploadoncloudinary}=require('../config/cloudinary') // Extra
@@ -19,4 +19,7 @@ router.post('/updateanswer',verifyjwt,updateAnswer)
 
 router.post('/getanswer',verifyjwt,getAnswer)
 router.post('/quizsubmit',verifyjwt,quizsubmit)
+
+router.get('/studentdash',verifyjwt,student_dashboard)
+router.get('/getresult',verifyjwt,quiz_response)
 module.exports= router
