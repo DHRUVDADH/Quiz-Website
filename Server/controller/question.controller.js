@@ -13,7 +13,7 @@ const createQuiz = async (req,res)=>{
         if (!title || !durationInMins || !noOfQuestion || !totalmarks || !description || !date || !time || !subId || !subName) {
             throw new ApiError(409,'All Field required')
             }
-        
+        console.log("Printing Title",title , time)
         const existone = await User.findById({
             _id:req.user._id
         }) 
@@ -143,6 +143,20 @@ const getQuestions = async (req,res)=>{
         if (!quizID) {
             throw new ApiError(409,'Quiz ID required')
             }
+
+        const user = await User.findById(req.user._id)
+
+        for(let i=0;i<user.quizhistory.length;i++)
+          {
+            if(quizhistory[i] === quizID)
+              {
+                return res.json({
+                  success:false,
+                  message:"you have already submit quiz"
+                })
+              }
+          }
+
         
         const existone = await Quiz.findOne({
             _id:quizID,
@@ -151,8 +165,6 @@ const getQuestions = async (req,res)=>{
         if(!existone){
             throw new ApiError(409,"You Don't have this Quiz")
         }
-
-        const user = await User.findById(req.user._id)
 
        if(user.quizhistory.indexOf(quizID) !==-1){
         throw new ApiError(409,"Alredy Submitted")

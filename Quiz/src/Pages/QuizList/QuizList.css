@@ -16,6 +16,7 @@ body {
   background-color: #eff3f8 !important;
   width: 100%;
   min-height: 100%;
+  
   flex-direction: column;
   display: flex;
   justify-content:  center;
@@ -130,8 +131,8 @@ body {
 }
 
 .header-title-row {
-  /* position: sticky ; */
-  /* top: 0; */
+  position: sticky ;
+  top: 0;
   padding: 1.2vw;
   display: flex;
   min-width: 100%;
@@ -140,14 +141,17 @@ body {
   justify-content: space-between;
   background-color: #f8f9fa;
   border-top: 1px solid #e6e9ec;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .colHeader {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
   width: 13%;
   min-width: 200px;
+  max-width: 200px;
+
 }
 
 .icon {
@@ -163,7 +167,7 @@ body {
 .row-content {
   padding: 1.2vw;
   display: flex;
-  width: 100%;
+  width: fit-content;
   align-items: center;
   justify-content: space-between;
   background-color: #fff;
@@ -412,4 +416,9 @@ body {
 .iconMedium{
   height: 25px;
   width: 25px;
+}
+
+.data-table-inner::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
 }

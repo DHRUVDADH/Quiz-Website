@@ -4,7 +4,7 @@ import AdminDataView from "./AdminDataView";
 import Filter from './Filter';
 import { AiOutlineSortAscending, AiOutlineSortDescending } from "react-icons/ai";
 
-const DataTable = ({ userData, id, setOpen }) => {
+const DataTable = ({ userData, id }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
     const [sortOrder, setSortOrder] = useState("asc");
@@ -46,8 +46,8 @@ const DataTable = ({ userData, id, setOpen }) => {
     }, [searchQuery, statusFilter, sortOrder, dateSortOrder, specificDate, userData]);
 
     const sortByTitle = (a, b) => {
-        const titleA = a.paperTitle.toLowerCase();
-        const titleB = b.paperTitle.toLowerCase();
+        const titleA = a.title.toLowerCase();
+        const titleB = b.title.toLowerCase();
         return titleA.localeCompare(titleB);
     };
 
@@ -157,6 +157,7 @@ const DataTable = ({ userData, id, setOpen }) => {
        
     ];
 
+
     return (
         <div className="DataTable-parant-Container">
             <div className="header-row">
@@ -189,7 +190,7 @@ const DataTable = ({ userData, id, setOpen }) => {
 
                 {filteredData.map((data, index) => (
                     <div className="row-content" key={data._id}>
-                            <AdminDataView data={data} index={index} setOpen={setOpen} />
+                            <AdminDataView data={data} index={index} />
                     </div>
                 ))}
             </div>

@@ -18,12 +18,9 @@ const verifyjwt=async (req,res,next)=>{
         req.user=user;
         next()
     } catch (e) {
-        console.log("error while verify json web token",e)
-        res
-        .status(500)
-        .json({
-            success:false,
-            message:"token not verify succesfully due to server error"
+        res.json({
+            ...e,
+            message: e.message
         })
     }
 }
@@ -42,12 +39,10 @@ const verifyFaculty=async (req,res,next)=>{
         next();
         
     } catch (e) {
-        console.log("error while verify json web token",e)
-        res
-        .status(500)
-        .json({
-            success:false,
-            message:"token not verify succesfully due to server error"
+       
+        res.json({
+            ...e,
+            message: e.message
         })
     }
 }

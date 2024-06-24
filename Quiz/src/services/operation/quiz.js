@@ -157,3 +157,23 @@ export async function submitQuiz(quizID ) {
   }
   // setLoading(false);
 }
+
+
+export async function fetchQuesList(setLoading,setUserData) {
+
+  setLoading(true);
+
+  try {
+    const response = await apiConnector("GET", `http://localhost:3000/api/v1/facultydash`);
+
+    if (!response.data.success) {
+      throw new Error(response.data.message);
+    }
+
+    setUserData(response.data.quizes);
+
+  } catch (error) {
+    toast.error(error.message);
+  }
+  setLoading(false);
+}
