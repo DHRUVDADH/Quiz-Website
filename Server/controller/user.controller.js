@@ -255,6 +255,26 @@ const quiz_response = async (req,res)=>{
     }
 }
 
+const faculty_dashboard =async(req,res)=>{
+    try{
+
+        const user = req.user
+        const quizes= await Quiz.find({crt_by:user._id},{updatedAt:0,description:0})
+        console.log("quizes",quizes)
+        return res.status(200).json({
+            success:true,
+            message:"quizes get successfully",
+            quizes:quizes
+        })
+
+    }catch(e)
+    {
+        return res.status(409).json({
+            success:false,
+            message:"error in faculty dashboard controller"
+        })
+    }
+}
 
 module.exports={ 
     signup,
@@ -263,5 +283,6 @@ module.exports={
     resetpassword,
     getdetail,
     student_dashboard,
-    quiz_response
+    quiz_response,
+    faculty_dashboard
 }
