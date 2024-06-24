@@ -8,6 +8,7 @@ import ResetPassword from './Pages/ResetPassword/ResetPassword'
 import Tutor from './Pages/TutorDash/Tutor'
 import QuestionAdd from './Components/QuestionAdd/QuestionAdd'
 import OpenRoute from './Components/Auth/OpenRoute'
+import QuizList from './Pages/QuizList/QuizList'
 
 import './App.css'
 import FacultyRoute from './Components/Auth/FacultyRoute'
@@ -25,6 +26,7 @@ const App = () => {
         
         <Route path="/faculty" element={<FacultyRoute><Tutor /></FacultyRoute>} >
           <Route path="/faculty/:quizID/addquestion" element={<QuestionAdd />} />
+          <Route path="/faculty" element={<QuizList />} />
         </Route>
 
         <Route path="/quiz/:quizID" element={<QuestionShow/>} />
@@ -37,3 +39,7 @@ const App = () => {
 }
 
 export default App
+
+
+
+

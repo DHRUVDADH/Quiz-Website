@@ -151,7 +151,13 @@ const getQuestions = async (req,res)=>{
         if(!existone){
             throw new ApiError(409,"You Don't have this Quiz")
         }
-        
+
+        const user = await User.findById(req.user._id)
+
+       if(user.quizhistory.indexOf(quizID) !==-1){
+        throw new ApiError(409,"Alredy Submitted")
+       }
+       
         const questions = await Question.findOne({quizID:quizID})
         const mcq = questions.questions;
         

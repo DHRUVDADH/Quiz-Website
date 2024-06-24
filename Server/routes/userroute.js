@@ -1,6 +1,6 @@
 const express=require('express')
 const router=express.Router()
-const {updateAnswer , getAnswer}  = require("../controller/result.controller")
+const {updateAnswer , getAnswer, quizsubmit}  = require("../controller/result.controller")
 const { signup,login}=require('../controller/user.controller')
 const { verifyjwt , verifyFaculty } = require('../middleware/auth.middleware')
 const { createQuiz,getAllQuizes,getQuiz,setQuestions,getQuestions } = require('../controller/question.controller')
@@ -18,5 +18,5 @@ router.get('/getquestions',verifyjwt,getQuestions)
 router.post('/updateanswer',verifyjwt,updateAnswer)
 
 router.get('/getanswer',verifyjwt,getAnswer)
-
+router.get('/quizsubmit',verifyjwt,quizsubmit)
 module.exports= router
