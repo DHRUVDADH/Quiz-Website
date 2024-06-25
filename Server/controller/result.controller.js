@@ -43,6 +43,20 @@ const quizsubmit = async (req, res) => {
 
         result_detail.earnmarks=score;
         const finRES = await result_detail.save();
+        const quiz =await Quiz.findById(quiz_id)
+        console.log("quiz",quiz)
+        if(user.usertype==='student'){
+            quiz.studentResponce.push(user._id)
+            await quiz.save();
+        }
+
+        const student = await User.findById(user._id)
+        if(!student)
+            {
+                throw new ApiError(409,"user not get successfully")
+            }
+        student.quizhistory.push(quiz_id)
+        await student.save();
 
         return res.status(200).json({
             success: true,
