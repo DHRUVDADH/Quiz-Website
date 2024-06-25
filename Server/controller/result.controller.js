@@ -7,9 +7,9 @@ const { ApiError } = require("../utils/ApiError")
 const quizsubmit = async (req, res) => {
     try {
         const user = req.user;
-        const { quiz_id } = req.body;
+        const { quizID } = req.query;
 
-        const result_detail = await Result.findOne({ quizID: quiz_id });
+        const result_detail = await Result.findOne({ quizID: quizID });
 
         if (!result_detail) {
             return res.status(404).json({
@@ -19,7 +19,7 @@ const quizsubmit = async (req, res) => {
         }
 
         const answer = result_detail.answer;
-        const questions_detail = await Question.findOne({ quizID: quiz_id });
+        const questions_detail = await Question.findOne({ quizID: quizID });
 
         if (!questions_detail) {
             return res.status(404).json({
@@ -57,6 +57,13 @@ const quizsubmit = async (req, res) => {
             }
         student.quizhistory.push(quiz_id)
         await student.save();
+
+        const updatedStudent = await User.findByIdAndUpdate(
+            req.user._id,
+            { $addToSet: { quizhistory: quizID } },
+            { new: true, upsert: true }
+          );
+        console.log(updatedStudent)
 
         return res.status(200).json({
             success: true,

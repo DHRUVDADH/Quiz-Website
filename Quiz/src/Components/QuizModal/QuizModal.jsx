@@ -120,7 +120,7 @@ const QuizModal = ({ closeModal }) => {
 
     if (validateForm(data)) {
       toast.success("Got Through Validation");
-      careteQuiz(data.time, data.durationInMins, data.noOfQuestion, data.totalmarks, data.description, data.date, data.time, data.subId, data.subName, setLoading, setCodeModal);
+      careteQuiz(data.title, data.durationInMins, data.noOfQuestion, data.totalmarks, data.description, data.date, data.time, data.subId, data.subName, setLoading, setCodeModal);
       return;
     }
   }

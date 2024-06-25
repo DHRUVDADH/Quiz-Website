@@ -13,7 +13,7 @@ const createQuiz = async (req,res)=>{
         if (!title || !durationInMins || !noOfQuestion || !totalmarks || !description || !date || !time || !subId || !subName) {
             throw new ApiError(409,'All Field required')
             }
-        
+        console.log("Printing Title",title , time)
         const existone = await User.findById({
             _id:req.user._id
         }) 
@@ -165,7 +165,11 @@ const getQuestions = async (req,res)=>{
         if(!existone){
             throw new ApiError(409,"You Don't have this Quiz")
         }
-        
+
+       if(user.quizhistory.indexOf(quizID) !==-1){
+        throw new ApiError(409,"Alredy Submitted")
+       }
+       
         const questions = await Question.findOne({quizID:quizID})
         const mcq = questions.questions;
         
