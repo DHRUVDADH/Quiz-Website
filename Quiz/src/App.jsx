@@ -13,6 +13,7 @@ import './App.css'
 import FacultyRoute from './Components/Auth/FacultyRoute'
 import StudentRoute from './Components/Auth/StudentRoute'
 import QuestionShow from './Components/QuestionShow/QuestionShow'
+// import DataTable from './Components/DataTable/DataTable'
 
 const App = () => {
   return (
