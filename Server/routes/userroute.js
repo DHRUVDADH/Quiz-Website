@@ -17,8 +17,8 @@ router.get('/getquestions',verifyjwt,getQuestions)
 
 router.post('/updateanswer',verifyjwt,updateAnswer)
 
-router.post('/getanswer',verifyjwt,getAnswer)
-router.post('/quizsubmit',verifyjwt,quizsubmit)
+router.get('/getanswer',verifyjwt,getAnswer)
+router.get('/quizsubmit',verifyjwt,quizsubmit)
 
 router.get('/studentdash',verifyjwt,student_dashboard)
 router.get('/getresult',verifyjwt,quiz_response)

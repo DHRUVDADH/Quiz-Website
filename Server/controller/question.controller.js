@@ -146,18 +146,15 @@ const getQuestions = async (req,res)=>{
 
         const user = await User.findById(req.user._id)
 
-        for(let i=0;i<user.quizhistory.length;i++)
-          {
-            if(quizhistory[i] === quizID)
-              {
-                return res.json({
-                  success:false,
-                  message:"you have already submit quiz"
-                })
-              }
-          }
 
-        
+          if(user.quizhistory.indexOf(quizID) != -1 && user.usertype!=='faculty')
+            {
+              return res.json({
+                success:false,
+                message:"you have already submit quiz"
+              })
+            }
+
         const existone = await Quiz.findOne({
             _id:quizID,
         }) 
@@ -166,10 +163,6 @@ const getQuestions = async (req,res)=>{
             throw new ApiError(409,"You Don't have this Quiz")
         }
 
-       if(user.quizhistory.indexOf(quizID) !==-1){
-        throw new ApiError(409,"Alredy Submitted")
-       }
-       
         const questions = await Question.findOne({quizID:quizID})
         const mcq = questions.questions;
         
