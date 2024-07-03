@@ -1,12 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
 import DataTable from "../../Components/Datatable/DataTable";
 import { fetchQuesList } from "../../services/operation/quiz";
+import EditDescription from "../../Components/Edit/EditDescription"
 import './QuizList.css'
 
 const QuizList = () => {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(false);
     const ref = useRef(null);
+
+    const [showEditModal, setEditModal] = useState(false);
+    const closeEditModal = () => setEditModal(false);
+    const openEditModal = () => setEditModal(true);
+
 
     useEffect(()=>{
         fetchQuesList(setLoading,setUserData)
@@ -23,13 +29,13 @@ const QuizList = () => {
                         <h1>Data Not Found</h1>
                     ) : (
                         <div className="dataTable-container">
-                            <DataTable userData={userData} id={"admin"}  />
+                            <DataTable userData={userData} id={"admin"} openEditModal={openEditModal}  />
                         </div>
                     )}
                 </>
             )}
 
-          
+           {showEditModal && <EditDescription closeModal={closeEditModal}  />}
         </div>
     );
 };

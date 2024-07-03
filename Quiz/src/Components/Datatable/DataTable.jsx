@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { IoSettingsOutline } from "react-icons/io5";
+import EditDescription from "../Edit/EditDescription"
 import { MdOutlineFilterAltOff } from "react-icons/md";
 import AdminDataView from "./AdminDataView";
 import {useNavigate} from "react-router-dom"
 import Filter from './Filter';
 import { AiOutlineSortAscending, AiOutlineSortDescending } from "react-icons/ai";
 
-const DataTable = ({ userData, id }) => {
+const DataTable = ({ userData, id ,  openEditModal}) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
     const [sortOrder, setSortOrder] = useState("asc");
@@ -162,8 +162,6 @@ const DataTable = ({ userData, id }) => {
     ];
 
 
-
-
     return (
         <div className="DataTable-parant-Container">
             <div className="header-row">
@@ -196,10 +194,11 @@ const DataTable = ({ userData, id }) => {
 
                 {filteredData.map((data, index) => (
                     <div className="row-content" key={data._id}>
-                            <AdminDataView data={data} index={index} />
+                            <AdminDataView data={data} index={index} openEditModal={openEditModal}/>
                     </div>
                 ))}
             </div>
+           
         </div>
     );
 };

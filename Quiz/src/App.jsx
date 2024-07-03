@@ -25,8 +25,8 @@ const App = () => {
         <Route path="/resetpassword" element={<OpenRoute><ResetPassword /></OpenRoute>} />
         
         <Route path="/faculty" element={<FacultyRoute><Tutor /></FacultyRoute>} >
-          <Route path="/faculty/:quizID/addquestion" element={<QuestionAdd />} />
           <Route path="/faculty" element={<QuizList />} />
+          <Route path="/faculty/:quizID/addquestion" element={<QuestionAdd />} />
         </Route>
 
         <Route path="/quiz/:quizID" element={<QuestionShow/>} />

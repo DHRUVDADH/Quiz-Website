@@ -20,7 +20,7 @@ const Menu = ({ applicationID, data, icon }) => {
 
             {
                 data.map(item => (
-                    <div className="linkAtDropDown_22" onClick={() => item.function(applicationID)}>
+                    <div className="linkAtDropDown_22" onClick={() => {setOpen(false); item.function(applicationID); }}>
                         {item.name}
                     </div>
                 ))

@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import copy from 'copy-to-clipboard';
 import { toast } from 'react-toastify';
 
-const   AdminDataView = ({data , index }) => {
+const   AdminDataView = ({data , index,openEditModal }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const quizSetting = [
@@ -16,7 +16,7 @@ const   AdminDataView = ({data , index }) => {
         },
         {
             name: "Edit Details",
-            function: (quizID) => (quizID , "regFeesProof"),
+            function: (quizID) => openEditModal(),
         },
         {
             name: "Result",
@@ -37,7 +37,7 @@ const   AdminDataView = ({data , index }) => {
             <div className="colHeader">{data.totalmarks}</div>
             <div className="colHeader">{data.noOfQuestion}</div>
             <div className="colHeader ">2</div>
-            <div className="colHeader"><Menu data={quizSetting} quizID={data._id} icon={<IoSettingsOutline />}/></div>
+            <div className="colHeader"><Menu data={quizSetting} quizID={data._id} icon={<IoSettingsOutline className='icon-large'/>}/></div>
             
         </>
     )
