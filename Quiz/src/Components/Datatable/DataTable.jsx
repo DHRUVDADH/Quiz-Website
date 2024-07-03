@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { IoSettingsOutline } from "react-icons/io5";
 import { MdOutlineFilterAltOff } from "react-icons/md";
 import AdminDataView from "./AdminDataView";
+import {useNavigate} from "react-router-dom"
 import Filter from './Filter';
 import { AiOutlineSortAscending, AiOutlineSortDescending } from "react-icons/ai";
 
@@ -11,6 +13,8 @@ const DataTable = ({ userData, id }) => {
     const [dateSortOrder, setDateSortOrder] = useState("asc");
     const [specificDate, setSpecificDate] = useState("");
     const [filteredData, setFilteredData] = useState(userData);
+
+    const navigate  = useNavigate();
 
     useEffect(() => {
         let filtered = userData;
@@ -156,6 +160,8 @@ const DataTable = ({ userData, id }) => {
         },
        
     ];
+
+
 
 
     return (
