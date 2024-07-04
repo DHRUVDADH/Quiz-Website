@@ -3,10 +3,9 @@ import QuestionAdd from '../QuestionAdd/QuestionAdd';
 import s from './QuizModal.module.css'
 import Loading from '../Loading/Loading';
 import { toast } from 'react-toastify'
-import { careteQuiz } from "../../services/operation/quiz"
+import { careteQuiz} from "../../services/operation/quiz"
 
-const EditDescription = ({ closeModal }) => {
-
+const EditDescription = async ({setEditModal}) => {
   const [codeModal, setCodeModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -22,7 +21,8 @@ const EditDescription = ({ closeModal }) => {
     subName: ''
   })
 
-  const closeCodeModal = () => { setCodeModal(false); closeModal(false) };
+
+  const closeCodeModal = () => { setCodeModal(false); setEditModal(false) };
 
   const validateForm = (formData) => {
 
@@ -135,7 +135,7 @@ const EditDescription = ({ closeModal }) => {
           <div className={s.sub2}>
             <div className={s.child1}>Quiz was successfully created</div>
           </div>
-          <button className={s.sub3} onClick={closeCodeModal}>Close</button>
+          <button className={s.sub3} onClick={()=>setEditModal(false)}>Close</button>
         </div>
 
         ) : (
@@ -146,7 +146,7 @@ const EditDescription = ({ closeModal }) => {
                   <div className={s.cont1}>
                     <div className={s.sub1}>Edit quiz</div>
                     <button type='submit' onClick={() => { time }} className={s.sub2}><img src="./Assets/Savearrow.svg" /></button>
-                    <button className={s.sub3} onClick={closeModal}><img src="./Assets/Closecross.svg" /></button>
+                    <button className={s.sub3} onClick={()=>setEditModal(false)}><img src="./Assets/Closecross.svg" /></button>
                   </div>
                   <div className={s.cont2}>
                     <div className={s.heading}>Details</div>

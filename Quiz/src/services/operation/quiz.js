@@ -177,3 +177,22 @@ export async function fetchQuesList(setLoading,setUserData) {
   }
   setLoading(false);
 }
+
+// export async function fetchEditDetail(setLoading)
+// {
+//   setLoading(true)
+//   try {
+//     const response = await apiConnector("GET",`http://localhost:3000/api/v1/getquestions?quizID=${quizID}`)
+
+    
+//     if (!response.data.success) {
+//       throw new Error(response.data.message);
+//     }
+  
+//     return response.data;
+  
+//   } catch (error) {
+//     toast.error(error.message);
+//   }
+//   setLoading(false)
+// }

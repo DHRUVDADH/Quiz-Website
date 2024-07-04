@@ -10,7 +10,6 @@ const QuizList = () => {
     const ref = useRef(null);
 
     const [showEditModal, setEditModal] = useState(false);
-    const closeEditModal = () => setEditModal(false);
     const openEditModal = () => setEditModal(true);
 
 
@@ -35,7 +34,7 @@ const QuizList = () => {
                 </>
             )}
 
-           {showEditModal && <EditDescription closeModal={closeEditModal}  />}
+           {showEditModal && <EditDescription setEditModal={setEditModal}  />}
         </div>
     );
 };
