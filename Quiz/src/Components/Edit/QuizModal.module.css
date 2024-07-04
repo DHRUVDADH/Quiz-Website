@@ -330,4 +330,8 @@ input[type=number] {
   border: none;
 }
 
+.loading-fix{
+  height: 250px;
+  width: 250px;
+}
 

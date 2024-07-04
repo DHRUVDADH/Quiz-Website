@@ -101,7 +101,7 @@ const getQuiz = async (req,res)=>{
 
         if (!quizID) {
             throw new ApiError(409,'Quiz ID required')
-            }
+        }
         
         const quiz = await Quiz.findOne({
             _id:quizID
@@ -230,7 +230,6 @@ const setQuestions = async (req, res) => {
   }
 };
 
-
 const validateQuestions = (questions) => {
   const errors = [];
 
@@ -275,8 +274,81 @@ const validateQuestions = (questions) => {
   }
 };
 
+const quizDetails = async (req,res)=>{
+  try {
+      const {quizID}=req.query;
+
+      if (!quizID) {
+          throw new ApiError(409,'Quiz ID required')
+      }
+      
+      const quiz = await Quiz.findOne({
+          _id:quizID
+      }) 
+      
+      if(!quiz){
+          throw new ApiError(409,"You Don't have this Quiz")
+      }
+      
+      return res.json({
+          success:true,
+          message:"Quiz Found",
+          quiz : quiz,
+      })
+
+     
+  } catch (e) {
+      res.json({
+          ...e,
+          message: e.message
+      })
+  }
+
+}
+
+const editDescription = async (req,res)=>{
+  try {
+    console.log(req.body)
+      const { title , durationInMins , noOfQuestion , totalmarks , description , date , time , subId , subName}=req.body.data;
+      const {quizID} = req.body;
+      if (!title || !durationInMins || !noOfQuestion || !totalmarks || !description || !date || !time || !subId || !subName) {
+          throw new ApiError(409,'All Field required')
+          }
+      const existone = await User.findById({
+          _id:req.user._id
+      }) 
+      
+      if(!existone){
+          throw new ApiError(409,'this user is not Exist')
+      }
+      const calculatedData  = new Date(`${date}T${time}:00Z`);
+      const quiz = await Quiz.findByIdAndUpdate({_id:quizID},{
+          title,
+          durationInMins,
+          noOfQuestion,
+          totalmarks,
+          description,
+          time : calculatedData,
+          subId,
+          subName,
+          crt_by:req.user._id,
+      });
+
+      if(!quiz) throw new ApiError(500,"Quiz not updated due to server error")
+
+      return res.json({
+          success:true,
+          message:"Quiz Updated",
+      })
+
+     
+  } catch (e) {
+      res.json({
+          ...e,
+          message: e.message
+      })
+  }
+}
 
 
-
-
-module.exports = { createQuiz, getAllQuizes, getQuiz, getQuestions, setQuestions };
+module.exports = { createQuiz, getAllQuizes, getQuiz, getQuestions, setQuestions, quizDetails,editDescription };

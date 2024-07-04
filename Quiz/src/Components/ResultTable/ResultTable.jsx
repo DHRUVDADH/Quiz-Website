@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineFilterAltOff } from "react-icons/md";
-import AdminDataView from "./AdminDataView";
+import ResultView from "./ResultView";
 import {useNavigate} from "react-router-dom"
 import Filter from './Filter';
 import { AiOutlineSortAscending, AiOutlineSortDescending } from "react-icons/ai";
 
-const DataTable = ({ userData, id }) => {
+const ResultTable = ({ userData, id }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
     const [sortOrder, setSortOrder] = useState("asc");
@@ -126,7 +126,7 @@ const DataTable = ({ userData, id }) => {
             title: null,
             icon: <input
                 type="text"
-                placeholder="Enter Subject Code"
+                placeholder="Enter Student ID"
                 className="inputSpecial"
                 value={specificDate}
                 onChange={handleSpecificDateChange}
@@ -145,19 +145,6 @@ const DataTable = ({ userData, id }) => {
             icon: <AiOutlineSortDescending />,
             callBack: handleDateSortOrderChange
         },
-        {
-            id: "status",
-            title: null,
-            icon: <input
-                type="text"
-                placeholder="Enter Subject Name"
-                className="inputSpecial"
-                value={specificDate}
-                onChange={handleSpecificDateChange}
-            />,
-            callBack: handleDateSortOrderChange
-        },
-       
     ];
 
 
@@ -180,20 +167,17 @@ const DataTable = ({ userData, id }) => {
                 <div className="header-title-row">
                     <div className="colHeader DataNumber">Number</div>
                     <div className="colHeader">
-                        Quiz Title <Filter id={"title"} filterData={filterData} />
+                       Student Name <Filter id={"title"} filterData={filterData} />
                     </div>
-                    <div className="colHeader">Subject ID <Filter id={"date"} filterData={filterData} /> </div>
-                    <div className="colHeader">Subject Name <Filter id={"status"} filterData={filterData} /> </div>
-                    <div className="colHeader">Date&Time</div>
-                    <div className="colHeader">Questions</div>
-                    <div className="colHeader">Marks</div>
-                    <div className="colHeader">Responses</div>
+                    <div className="colHeader">Student ID <Filter id={"date"} filterData={filterData} /> </div>
+                    <div className="colHeader">Marks <Filter id={"status"} filterData={filterData} /> </div>
+                    <div className="colHeader">Submission Time</div>
                     <div className="colHeader">Action</div>
                 </div>
 
                 {filteredData.map((data, index) => (
                     <div className="row-content" key={data._id}>
-                            <AdminDataView data={data} index={index} />
+                            <ResultView data={data} index={index} />
                     </div>
                 ))}
             </div>
@@ -202,5 +186,4 @@ const DataTable = ({ userData, id }) => {
     );
 };
 
-export default DataTable;
-
+export default ResultTable;

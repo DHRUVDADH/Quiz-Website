@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import QuestionAdd from '../QuestionAdd/QuestionAdd';
+import React, { useEffect, useState } from 'react'
+import {fetchQuizDetils , editDescription} from "../../services/operation/quiz"
 import s from './QuizModal.module.css'
 import Loading from '../Loading/Loading';
 import { toast } from 'react-toastify'
-import { careteQuiz } from "../../services/operation/quiz"
 
-const EditDescription = ({ closeModal }) => {
+
+const EditDescription = ({ quizID , closeModal }) => {
 
   const [codeModal, setCodeModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -23,6 +23,10 @@ const EditDescription = ({ closeModal }) => {
   })
 
   const closeCodeModal = () => { setCodeModal(false); closeModal(false) };
+
+  useEffect(()=>{
+    fetchQuizDetils(quizID,setLoading , setData,closeModal)
+  },[])
 
   const validateForm = (formData) => {
 
@@ -120,7 +124,7 @@ const EditDescription = ({ closeModal }) => {
 
     if (validateForm(data)) {
       toast.success("Got Through Validation");
-      careteQuiz(data.title, data.durationInMins, data.noOfQuestion, data.totalmarks, data.description, data.date, data.time, data.subId, data.subName, setLoading, setCodeModal);
+      editDescription(quizID,setLoading,data,setCodeModal,closeModal);
       return;
     }
   }
@@ -141,7 +145,7 @@ const EditDescription = ({ closeModal }) => {
         ) : (
           <form className={s.container1} onSubmit={submitHandler}>
             {
-              loading ? (<Loading />) : (
+              loading ? (<h1>Loading..</h1>) : (
                 <>
                   <div className={s.cont1}>
                     <div className={s.sub1}>Edit quiz</div>
@@ -196,7 +200,6 @@ const EditDescription = ({ closeModal }) => {
           </form>
         )}
       </>
-
 
     </div>
   )

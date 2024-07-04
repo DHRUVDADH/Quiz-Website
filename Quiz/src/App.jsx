@@ -9,6 +9,7 @@ import Tutor from './Pages/TutorDash/Tutor'
 import QuestionAdd from './Components/QuestionAdd/QuestionAdd'
 import OpenRoute from './Components/Auth/OpenRoute'
 import QuizList from './Pages/QuizList/QuizList'
+import Result from './Components/Result/Result'
 
 import './App.css'
 import FacultyRoute from './Components/Auth/FacultyRoute'
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/faculty" element={<FacultyRoute><Tutor /></FacultyRoute>} >
           <Route path="/faculty" element={<QuizList />} />
           <Route path="/faculty/:quizID/addquestion" element={<QuestionAdd />} />
+          <Route path="/faculty/:quizID/result" element={<Result />} />
         </Route>
 
         <Route path="/quiz/:quizID" element={<QuestionShow/>} />

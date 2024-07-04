@@ -16,7 +16,7 @@ const Menu = ( {quizID, data, icon} ) => {
         <>
             {
                 data.map(item => (
-                    <div className="linkAtDropDown_22" onClick={() => item.function(quizID)}>
+                    <div className="linkAtDropDown_22" onClick={() => {setOpen(false); item.function(quizID)}}>
                         {item.name}
                     </div>
                 ))

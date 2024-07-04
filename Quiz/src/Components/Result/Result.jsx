@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import DataTable from "../../Components/Datatable/DataTable";
+import ResultTable from "../ResultTable/ResultTable";
 import { fetchQuesList } from "../../services/operation/quiz";
 
-import './QuizList.css'
+import './Result.css'
 
-const QuizList = () => {
+const Result = () => {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(false);
     const ref = useRef(null);
@@ -23,7 +23,7 @@ const QuizList = () => {
                         <h1>Data Not Found</h1>
                     ) : (
                         <div className="dataTable-container">
-                            <DataTable userData={userData} id={"admin"}   />
+                            <ResultTable userData={userData} id={"admin"}   />
                         </div>
                     )}
                 </>
@@ -32,4 +32,5 @@ const QuizList = () => {
     );
 };
 
-export default QuizList;
+
+export default Result
