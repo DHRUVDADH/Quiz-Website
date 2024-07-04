@@ -3,6 +3,7 @@ const User =require('../model/user.model')
 const Question = require('../model/question.model')
 const jwt = require('jsonwebtoken')
 const {ApiError} = require('../utils/ApiError')
+const Result = require('../model/result.model')
 
 
 
@@ -346,9 +347,43 @@ const editDescription = async (req,res)=>{
       res.json({
           ...e,
           message: e.message
-      })
+      });
+    
+  }
+}
+const getquizres = async (req,res) =>{
+  try {
+    const {quizID} = req.query;
+    // const quiz = await Quiz.findById(quizID);
+    // var name
+
+    const results = await Result.find({ quizID: quizID }).populate('studentID');
+
+    if (!results || results.length === 0) {
+      return res.status(404).send({ message: 'No results found for the given quizID' });
+    }
+
+    // Construct the response array
+    const response = results.map(result => ({
+      name: `${result.studentID.firstname} ${result.studentID.lastname}`,
+      student_id: result.studentID.student_id,
+      earnedMarks: result.earnmarks,
+      createdAt: result.createdAt
+    }));
+
+
+    return res.status(200).json({
+      success:true,
+      message:"student detail fetch successfully",
+      data:response,
+    })
+  } catch (e) {
+    res.json({
+      ...e,
+      message: e.message,
+    });
   }
 }
 
 
-module.exports = { createQuiz, getAllQuizes, getQuiz, getQuestions, setQuestions, quizDetails,editDescription };
+module.exports = { createQuiz, getAllQuizes, getQuiz, getQuestions, setQuestions, quizDetails,editDescription,getquizres };

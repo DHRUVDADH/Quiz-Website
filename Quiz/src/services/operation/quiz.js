@@ -191,7 +191,7 @@ export async function fetchQuizDetils(quizID,setLoading,setData,closeModal) {
 
   } catch (error) {
     toast.error(error.message);
-    closeModal();
+    setEditModal(false);
   }
   setLoading(false);
 }
@@ -212,6 +212,26 @@ export async function editDescription(quizID,setLoading,data,setCodeModal,closeM
   } catch (error) {
     toast.error(error.message);
     closeModal();
+  }
+  setLoading(false);
+}
+
+
+export async function fetchResults(quizID ,setLoading,setUserData) {
+
+  setLoading(true);
+
+  try {
+    const response = await apiConnector("GET", `http://localhost:3000/api/v1/quizresponse?quizID=${quizID}`);
+
+    if (!response.data.success) {
+      throw new Error(response.data.message);
+    }
+    setUserData(response.data.data);
+   
+  } catch (error) {
+    toast.error(error.message);
+    console.error('Error fetching quiz details:', error);
   }
   setLoading(false);
 }

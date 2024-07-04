@@ -45,7 +45,7 @@ const   AdminDataView = ({data , index }) => {
             <div className="colHeader ">2</div>
             <div className="colHeader"><Menu data={quizSetting} quizID={data._id} icon={<IoSettingsOutline className='icon-large'/>}/></div>
             
-        {showEditModal && <EditDescription closeModal={closeEditModal} quizID={data._id}  />}
+        {showEditModal && <EditDescription setEditModal={setEditModal} quizID={data._id}  />}
 
         </>
     )

@@ -1,16 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
 import ResultTable from "../ResultTable/ResultTable";
-import { fetchQuesList } from "../../services/operation/quiz";
+import { fetchResults } from "../../services/operation/quiz";
 
 import './Result.css'
+import { useParams } from "react-router-dom";
 
 const Result = () => {
+    const {quizID} = useParams();
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(false);
     const ref = useRef(null);
 
     useEffect(()=>{
-        fetchQuesList(setLoading,setUserData)
+        fetchResults(quizID,setLoading,setUserData)
     },[])
 
     return (
@@ -19,11 +21,11 @@ const Result = () => {
                 <h1>Loading...</h1>
             ) : (
                 <>
-                    {userData == null ? (
+                    {(userData == null)||(userData.length == 0) ? (
                         <h1>Data Not Found</h1>
                     ) : (
                         <div className="dataTable-container">
-                            <ResultTable userData={userData} id={"admin"}   />
+                            <ResultTable userData={userData}  />
                         </div>
                     )}
                 </>

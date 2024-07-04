@@ -35,10 +35,10 @@ const   ResultView = ({data , index }) => {
     return (
         <>
             <div className="colHeader DataNumber">{index + 1}</div>
-            <div className="colHeader">NAme</div>
-            <div className="colHeader">22DIT022</div>
-            <div className="colHeader">10</div>
-            <div className="colHeader">{"2024-06-23T17:14:45.110+00:00".split("T")[0] } - {"2024-06-23T17:14:45.110+00:00".split("T")[1].split("+")[0].split(".")[0]}</div>
+            <div className="colHeader">{data.name}</div>
+            <div className="colHeader">{data.student_id}</div>
+            <div className="colHeader">{data.earnedMarks}</div>
+            <div className="colHeader">{data.createdAt.split("T")[0] } - {data.createdAt.split("T")[1].split("+")[0].split(".")[0]}</div>
             <div className="colHeader"><Link to="/faculty/:resultID/result"><FaEye className='icon-large'/></Link></div>
         </>
     )

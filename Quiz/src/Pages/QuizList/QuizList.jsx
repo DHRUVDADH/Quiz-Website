@@ -9,6 +9,10 @@ const QuizList = () => {
     const [loading, setLoading] = useState(false);
     const ref = useRef(null);
 
+    const [showEditModal, setEditModal] = useState(false);
+    const openEditModal = () => setEditModal(true);
+
+
     useEffect(()=>{
         fetchQuesList(setLoading,setUserData)
     },[])

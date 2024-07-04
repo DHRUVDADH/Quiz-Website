@@ -5,14 +5,14 @@ import {useNavigate} from "react-router-dom"
 import Filter from './Filter';
 import { AiOutlineSortAscending, AiOutlineSortDescending } from "react-icons/ai";
 
-const ResultTable = ({ userData, id }) => {
+const ResultTable = ({ userData }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
     const [sortOrder, setSortOrder] = useState("asc");
     const [dateSortOrder, setDateSortOrder] = useState("asc");
     const [specificDate, setSpecificDate] = useState("");
     const [filteredData, setFilteredData] = useState(userData);
-
+    console.log(userData)
     const navigate  = useNavigate();
 
     useEffect(() => {
@@ -20,7 +20,7 @@ const ResultTable = ({ userData, id }) => {
 
         if (searchQuery) {
             filtered = filtered.filter(data =>
-                data.paperTitle.toLowerCase().includes(searchQuery.toLowerCase())
+                data.name.toLowerCase().includes(searchQuery.toLowerCase())
             );
         }
 

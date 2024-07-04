@@ -3,9 +3,9 @@ import {fetchQuizDetils , editDescription} from "../../services/operation/quiz"
 import s from './QuizModal.module.css'
 import Loading from '../Loading/Loading';
 import { toast } from 'react-toastify'
+import { careteQuiz} from "../../services/operation/quiz"
 
-
-const EditDescription = ({ quizID , closeModal }) => {
+const  EditDescription = ({ quizID , setEditModal }) => {
 
   const [codeModal, setCodeModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -22,10 +22,11 @@ const EditDescription = ({ quizID , closeModal }) => {
     subName: ''
   })
 
-  const closeCodeModal = () => { setCodeModal(false); closeModal(false) };
+
+  const closeCodeModal = () => { setCodeModal(false); setEditModal(false) };
 
   useEffect(()=>{
-    fetchQuizDetils(quizID,setLoading , setData,closeModal)
+    fetchQuizDetils(quizID,setLoading , setData,setEditModal)
   },[])
 
   const validateForm = (formData) => {
@@ -124,7 +125,7 @@ const EditDescription = ({ quizID , closeModal }) => {
 
     if (validateForm(data)) {
       toast.success("Got Through Validation");
-      editDescription(quizID,setLoading,data,setCodeModal,closeModal);
+      editDescription(quizID,setLoading,data,setCodeModal,setEditModal);
       return;
     }
   }
@@ -139,18 +140,18 @@ const EditDescription = ({ quizID , closeModal }) => {
           <div className={s.sub2}>
             <div className={s.child1}>Quiz was successfully created</div>
           </div>
-          <button className={s.sub3} onClick={closeCodeModal}>Close</button>
+          <button className={s.sub3} onClick={()=>closeCodeModal( )}>Close</button>
         </div>
 
         ) : (
-          <form className={s.container1} onSubmit={submitHandler}>
+          <form className={s.container1}>
             {
               loading ? (<h1>Loading..</h1>) : (
                 <>
                   <div className={s.cont1}>
                     <div className={s.sub1}>Edit quiz</div>
-                    <button type='submit' onClick={() => { time }} className={s.sub2}><img src="./Assets/Savearrow.svg" /></button>
-                    <button className={s.sub3} onClick={closeModal}><img src="./Assets/Closecross.svg" /></button>
+                    <button onClick={submitHandler} className={s.sub2}><img src="./Assets/Savearrow.svg" /></button>
+                    <button className={s.sub3} onClick={()=>setEditModal(false)}><img src="./Assets/Closecross.svg" /></button>
                   </div>
                   <div className={s.cont2}>
                     <div className={s.heading}>Details</div>
