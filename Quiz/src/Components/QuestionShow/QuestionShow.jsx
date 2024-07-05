@@ -6,6 +6,7 @@ import Loading from '../Loading/Loading';
 import { useParams  , useNavigate} from "react-router-dom";
 import { fetchQuestions, fetchAnswer, updateAnswer , submitQuiz } from '../../services/operation/quiz';
 import { toast } from 'react-toastify';
+import QuizDetails from './QuizDetails';
 
 
 const QuestionShow = () => {
@@ -70,6 +71,15 @@ const QuestionShow = () => {
         <Loading />
       ) : (
         <> */}
+        <>
+        <QuizDetails
+            subName={'mohil'}
+            subID={'123'}
+            quizID={'rgf5484gv'}
+            totalQuestions={ '6'}
+            totalMarks={'7'}
+          />
+        </>
           {!questions ? (
             <p>No Questions</p>
           ) : (
@@ -96,7 +106,7 @@ const QuestionShow = () => {
                   <p className={styles.marks}>Marks: {q.marks}</p>
                 </div>
               ))}
-              <button onClick={submitHandler}>Submit</button>
+              <button onClick={submitHandler} className={styles.qsubmitbtn}>Submit</button>
             </div>
           )}
         {/* </> */}
