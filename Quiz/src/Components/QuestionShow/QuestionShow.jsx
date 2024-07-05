@@ -63,7 +63,7 @@ const QuestionShow = () => {
   };
 
   const submitHandler = () => {
-    submitQuiz(quizID);
+    submitQuiz(quizID,setLoading,navigate);
   }
 
   return (
@@ -99,7 +99,7 @@ const QuestionShow = () => {
             )
           }
 
-          
+
               {questions.map((q, questionIndex) => (
                 <div key={q._id} className={styles.questionBlock}>
                   <h2 className={styles.question}>{q.question}</h2>

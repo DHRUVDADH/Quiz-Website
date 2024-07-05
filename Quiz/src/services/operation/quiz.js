@@ -138,9 +138,9 @@ export async function fetchAnswer(quizID ) {
   // setLoading(false);
 }
 
-export async function submitQuiz(quizID ) {
+export async function submitQuiz(quizID,setLoading,navigate ) {
 
-  // setLoading(true);
+  setLoading(true);
 
   try {
     const response = await apiConnector("GET", `http://localhost:3000/api/v1/quizsubmit?quizID=${quizID}`);
@@ -149,12 +149,13 @@ export async function submitQuiz(quizID ) {
       throw new Error(response.data.message);
     }
     toast.success("Saved Successfully");
+    navigate("/");
   } catch (error) {
     toast.error(error.message);
     console.error('Error fetching quiz details:', error);
     return error;
   }
-  // setLoading(false);
+  setLoading(false);
 }
 
 export async function fetchQuesList(setLoading,setUserData) {

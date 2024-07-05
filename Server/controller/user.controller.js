@@ -48,7 +48,7 @@ const signup = async (req,res) =>{
         
 
         const user=await User.create({
-            username:student_id.toLowerCase(),
+            student_id:student_id.toLowerCase(),
             password,
             email,
             firstname,
