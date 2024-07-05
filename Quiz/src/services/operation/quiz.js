@@ -82,7 +82,7 @@ export async function setQuestinos(quizID ,questions, setQuestions,setLoading,na
   setLoading(false);
 }
 
-export async function fetchQuestions(quizID ,setQuestions,setSelectedOptions,setLoading,navigate) {
+export async function fetchQuestions(quizID ,setQuizDesc,setQuestions,setSelectedOptions,setLoading,navigate) {
 
   setLoading(true);
 
@@ -92,7 +92,7 @@ export async function fetchQuestions(quizID ,setQuestions,setSelectedOptions,set
     if (!response.data.success) {
       throw new Error(response.data.message);
     }
-    console.log(response.data)
+    setQuizDesc(response.data.quiz)
     setQuestions(response.data.mcq);
     setSelectedOptions(Array(response.data.mcq.length).fill({ id: null, ans: null }))
     return {mcq:response.data.mcq , success:response.data.success};
