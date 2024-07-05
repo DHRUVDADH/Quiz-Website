@@ -177,7 +177,7 @@ const getdetail = async (req,res)=>{
     }
 }
 
-const student_dashboard = async (req,res)=>{
+const studentDashboard = async (req,res)=>{
     try{
         if(req.user.usertype!=='student'){
             return res.status(400).json({
@@ -185,18 +185,19 @@ const student_dashboard = async (req,res)=>{
                 message:"you are not valid author"
             })
         }
-        const user = await User.findById(req.user._id)
-        var quizdetail=[];
-        for(let i=0;i<user.quizhistory.length;i++)
-            {
-                let quiz = await Quiz.findById(user.quizhistory[i])
-                quizdetail.push(quiz)
-            }
-        console.log("quiz detail",quizdetail)
+        
+        const user = await User.findById(req.user._id); 
+        const quizhistory = user.quizhistory;
+
+        const quizhistorydata = await Quiz.find({_id:{$in:quizhistory}}).select('title subName subId');
+        const quizresult = await Result.find({quizID:{$in:quizhistory}}).select('earnmarks quizID')
+        console.log("ds",quizhistorydata)
+
         return res.status(200).json({
             success:true,
             message:"student dashboard fetch successfully",
-            quizdetail:quizdetail,
+            quizhistorydata:quizhistorydata,
+            quizresult:quizresult
         })
 
     }catch(e)
@@ -282,7 +283,7 @@ module.exports={
     updatedetail,
     resetpassword,
     getdetail,
-    student_dashboard,
+    studentDashboard,
     quiz_response,
     faculty_dashboard
 }
