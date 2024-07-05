@@ -49,8 +49,8 @@ const ResultTable = ({ userData }) => {
     }, [searchQuery, statusFilter, sortOrder, dateSortOrder, specificDate, userData]);
 
     const sortByTitle = (a, b) => {
-        const titleA = a.title.toLowerCase();
-        const titleB = b.title.toLowerCase();
+        const titleA = a.name.toLowerCase();
+        const titleB = b.name.toLowerCase();
         return titleA.localeCompare(titleB);
     };
 

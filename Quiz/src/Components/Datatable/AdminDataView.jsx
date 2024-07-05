@@ -26,7 +26,7 @@ const   AdminDataView = ({data , index }) => {
         },
         {
             name: "Result",
-            function: (quizID) => (quizID , "conferenceAcceptance"),
+            function: (quizID) => navigate(`/faculty/${quizID}/result`),
         },
         {
             name: "Copy URL",

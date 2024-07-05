@@ -11,7 +11,7 @@ const   ResultView = ({data , index }) => {
             <div className="colHeader">{data.student_id}</div>
             <div className="colHeader">{data.earnedMarks}</div>
             <div className="colHeader">{data.createdAt.split("T")[0] } - {data.createdAt.split("T")[1].split("+")[0].split(".")[0]}</div>
-            <div className="colHeader"><Link to="/faculty/:resultID/detaildresult"><FaEye className='icon-large'/></Link></div>
+            <div className="colHeader"><Link to={`/faculty/${data._id}/detaildresult`}><FaEye className='icon-large'/></Link></div>
         </>
     )
 }

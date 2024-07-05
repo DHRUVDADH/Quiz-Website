@@ -365,6 +365,7 @@ const getquizres = async (req,res) =>{
 
     // Construct the response array
     const response = results.map(result => ({
+      _id:result._id,
       name: `${result.studentID.firstname} ${result.studentID.lastname}`,
       student_id: result.studentID.student_id,
       earnedMarks: result.earnmarks,
