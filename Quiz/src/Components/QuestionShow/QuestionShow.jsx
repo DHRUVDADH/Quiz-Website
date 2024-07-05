@@ -66,10 +66,10 @@ const QuestionShow = () => {
 
   return (
     <div className={styles.main}>
-      {loading ? (
+      {/* {loading ? (
         <Loading />
       ) : (
-        <>
+        <> */}
           {!questions ? (
             <p>No Questions</p>
           ) : (
@@ -99,9 +99,10 @@ const QuestionShow = () => {
               <button onClick={submitHandler}>Submit</button>
             </div>
           )}
-        </>
-      )}
-    </div>
+        {/* </> */}
+      )
+    
+   </div>
   );
 };
 
