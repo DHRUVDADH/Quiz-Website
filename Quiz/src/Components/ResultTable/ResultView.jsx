@@ -1,13 +1,12 @@
 import React,{useState} from 'react'
-import Menu from '../Menu/Menu';
-import { IoSettingsOutline } from "react-icons/io5";
+import { Link } from 'react-router-dom';
+import { FaEye } from "react-icons/fa";
 import {useNavigate} from "react-router-dom"
 import { useDispatch } from 'react-redux'
 import copy from 'copy-to-clipboard';
 import { toast } from 'react-toastify';
-import EditDescription from '../Edit/EditDescription';
 
-const   AdminDataView = ({data , index }) => {
+const   ResultView = ({data , index }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -36,19 +35,13 @@ const   AdminDataView = ({data , index }) => {
     return (
         <>
             <div className="colHeader DataNumber">{index + 1}</div>
-            <div className="colHeader">{data.title}</div>
-            <div className="colHeader">{data.subId}</div>
-            <div className="colHeader">{data.subName}</div>
-            <div className="colHeader">{"2024-06-23T17:14:45.110+00:00".split("T")[0] } - {"2024-06-23T17:14:45.110+00:00".split("T")[1].split("+")[0].split(".")[0]}</div>
-            <div className="colHeader">{data.totalmarks}</div>
-            <div className="colHeader">{data.noOfQuestion}</div>
-            <div className="colHeader ">2</div>
-            <div className="colHeader"><Menu data={quizSetting} quizID={data._id} icon={<IoSettingsOutline className='icon-large'/>}/></div>
-            
-        {showEditModal && <EditDescription setEditModal={setEditModal} quizID={data._id}  />}
-
+            <div className="colHeader">{data.name}</div>
+            <div className="colHeader">{data.student_id}</div>
+            <div className="colHeader">{data.earnedMarks}</div>
+            <div className="colHeader">{data.createdAt.split("T")[0] } - {data.createdAt.split("T")[1].split("+")[0].split(".")[0]}</div>
+            <div className="colHeader"><Link to="/faculty/:resultID/result"><FaEye className='icon-large'/></Link></div>
         </>
     )
 }
 
-export default AdminDataView
+export default ResultView

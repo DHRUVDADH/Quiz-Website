@@ -5,11 +5,12 @@ import QuizModal from '../../Components/QuizModal/QuizModal'
 import { Outlet } from 'react-router-dom'
 import QuestionShow from '../../Components/QuestionShow/QuestionShow'
 
+
 const Tutor = () => {
     const number = 10;
-    const [showmodal, setShowmodal] = useState(false)
+    const [showmodal, setShowmodal] = useState(false);
+    const closeModal = () => setShowmodal(false);
 
-    const closeModal = () => setShowmodal(false)
     return (
         <div className={s.main}>
             <div className={s.container}>
@@ -51,7 +52,6 @@ const Tutor = () => {
                 </div>
             </div>
             {showmodal && <QuizModal closeModal={closeModal} className={s.quizModal} />}
-            {/* <QuestionShow className={s.ccc}></QuestionShow> */}
         </div>
     )
 }

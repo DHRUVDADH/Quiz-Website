@@ -1,13 +1,10 @@
 import { useRef, useState } from "react"
-import { AiOutlineDownload } from "react-icons/ai";
-
-import "./popup.css"
-
+import "./Menu.css"
 import useOnClickOutside from "../../customHooks/useOnClickOutside"
 
 
 
-const Menu = ({ applicationID, data, icon }) => {
+const Menu = ( {quizID, data, icon} ) => {
 
     const [open, setOpen] = useState(false)
     const ref = useRef(null)
@@ -17,10 +14,9 @@ const Menu = ({ applicationID, data, icon }) => {
 
     const renderFilter = () => (
         <>
-
             {
                 data.map(item => (
-                    <div className="linkAtDropDown_22" onClick={() => {setOpen(false); item.function(applicationID); }}>
+                    <div className="linkAtDropDown_22" onClick={() => {setOpen(false); item.function(quizID)}}>
                         {item.name}
                     </div>
                 ))

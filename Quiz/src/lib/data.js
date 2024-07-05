@@ -1,28 +1,4 @@
 
-import { AiOutlineDownload } from "react-icons/ai";
-
-
-export const downloadData = {
-    downloadData: [
-        {
-            name: "Application",
-            function: (applicationID) => (applicationID),
-        },
-        {
-            name: "Fees",
-            function: (applicationID) => (applicationID , "regFeesProof"),
-        },
-        {
-            name: "Confeerence",
-            function: (applicationID) => (applicationID , "conferenceAcceptance"),
-        },
-        {
-            name: "Indexing Proof",
-            function: (applicationID) => (applicationID , "indexingProof"),
-        }
-    ],
-   
-}
 
 
 export const application = {

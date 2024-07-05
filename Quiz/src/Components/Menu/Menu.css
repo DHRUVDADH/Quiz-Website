@@ -50,25 +50,8 @@
   .linkAtDropDown_22:hover {
     background-color: #e4e1e1; /* Corresponds to bg-richblack-700 in Tailwind */
     color: black; /* Corresponds to text-richblack-25 in Tailwind */
-    cursor: pointer;
   }
-
-
-  .inputSpecial{
-    width: 100%;
-    padding: 3px;
-    box-sizing: border-box;
-    margin: 0;
-  }
-
-
-  .icon-large{
-    width: 20px;
-    height:20px;
-    cursor: pointer;
-    z-index: 0;
-  }
-
-  .header-title-row{
-    z-index: 1;
+  
+  .inoutSpecial:hover{
+    background-color: #e4e1e1;
   }

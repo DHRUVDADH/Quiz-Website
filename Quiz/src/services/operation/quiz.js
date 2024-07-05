@@ -138,7 +138,6 @@ export async function fetchAnswer(quizID ) {
   // setLoading(false);
 }
 
-
 export async function submitQuiz(quizID ) {
 
   // setLoading(true);
@@ -158,7 +157,6 @@ export async function submitQuiz(quizID ) {
   // setLoading(false);
 }
 
-
 export async function fetchQuesList(setLoading,setUserData) {
 
   setLoading(true);
@@ -174,6 +172,66 @@ export async function fetchQuesList(setLoading,setUserData) {
 
   } catch (error) {
     toast.error(error.message);
+  }
+  setLoading(false);
+}
+
+export async function fetchQuizDetils(quizID,setLoading,setData,closeModal) {
+
+  setLoading(true);
+
+  try {
+    const response = await apiConnector("GET", `http://localhost:3000/api/v1/quizDetails?quizID=${quizID}`);
+
+    if (!response.data.success) {
+      throw new Error(response.data.message);
+    }
+
+    setData(response.data.quiz);
+
+  } catch (error) {
+    toast.error(error.message);
+    setEditModal(false);
+  }
+  setLoading(false);
+}
+
+export async function editDescription(quizID,setLoading,data,setCodeModal,closeModal) {
+
+  setLoading(true);
+
+  try {
+    const response = await apiConnector("POST", `http://localhost:3000/api/v1/editdesciption`,{quizID , data});
+
+    if (!response.data.success) {
+      throw new Error(response.data.message);
+    }
+
+    setCodeModal(true);
+
+  } catch (error) {
+    toast.error(error.message);
+    closeModal();
+  }
+  setLoading(false);
+}
+
+
+export async function fetchResults(quizID ,setLoading,setUserData) {
+
+  setLoading(true);
+
+  try {
+    const response = await apiConnector("GET", `http://localhost:3000/api/v1/quizresponse?quizID=${quizID}`);
+
+    if (!response.data.success) {
+      throw new Error(response.data.message);
+    }
+    setUserData(response.data.data);
+   
+  } catch (error) {
+    toast.error(error.message);
+    console.error('Error fetching quiz details:', error);
   }
   setLoading(false);
 }
