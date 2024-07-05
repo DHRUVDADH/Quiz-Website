@@ -22,7 +22,7 @@ const QuizModal = ({ closeModal }) => {
     subName: ''
   })
 
-  const closeCodeModal = () => { setCodeModal(false) };
+  const closeCodeModal = () => { setCodeModal(false); closeModal(false) };
 
   const validateForm = (formData) => {
 
@@ -120,7 +120,7 @@ const QuizModal = ({ closeModal }) => {
 
     if (validateForm(data)) {
       toast.success("Got Through Validation");
-      careteQuiz(data.time, data.durationInMins, data.noOfQuestion, data.totalmarks, data.description, data.date, data.time, data.subId, data.subName, setLoading, setCodeModal);
+      careteQuiz(data.title, data.durationInMins, data.noOfQuestion, data.totalmarks, data.description, data.date, data.time, data.subId, data.subName, setLoading, setCodeModal);
       return;
     }
   }
@@ -135,7 +135,7 @@ const QuizModal = ({ closeModal }) => {
           <div className={s.sub2}>
             <div className={s.child1}>Quiz was successfully created</div>
           </div>
-          <button className={s.sub3}>Close</button>
+          <button className={s.sub3} onClick={closeCodeModal}>Close</button>
         </div>
 
         ) : (

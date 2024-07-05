@@ -45,7 +45,11 @@ const quizSchema = new Schema(
     questionID:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Question'
-    }
+    },
+    studentResponce:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    }]
   },
   { timestamps: true }
 );

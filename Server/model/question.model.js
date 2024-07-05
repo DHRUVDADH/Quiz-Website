@@ -6,7 +6,6 @@ const OptionSchema = new Schema({
 });
 
 const multiquestonSchema = new Schema({
-  id: { type: String, required: true },
   question: { type: String, required: true },
   options: { type: [OptionSchema], required: true },
   correctAnswer: { type: String, required: true },

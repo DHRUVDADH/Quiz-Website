@@ -13,7 +13,7 @@ const createQuiz = async (req,res)=>{
         if (!title || !durationInMins || !noOfQuestion || !totalmarks || !description || !date || !time || !subId || !subName) {
             throw new ApiError(409,'All Field required')
             }
-        
+        console.log("Printing Title",title , time)
         const existone = await User.findById({
             _id:req.user._id
         }) 
@@ -104,8 +104,7 @@ const getQuiz = async (req,res)=>{
             }
         
         const quiz = await Quiz.findOne({
-            _id:quizID,
-            crt_by:req.user._id,
+            _id:quizID
         }) 
         
         if(!quiz){
@@ -113,8 +112,7 @@ const getQuiz = async (req,res)=>{
         }
 
         const question = await Question.findOne({
-            quizID:quiz._id,
-            crt_by:req.user._id,
+            quizID:quiz._id
         },{questions:1}) 
 
         if(!question){
@@ -145,21 +143,46 @@ const getQuestions = async (req,res)=>{
         if (!quizID) {
             throw new ApiError(409,'Quiz ID required')
             }
+
+        const user = await User.findById(req.user._id)
+
+        for(let i=0;i<user.quizhistory.length;i++)
+          {
+            if(quizhistory[i] === quizID)
+              {
+                return res.json({
+                  success:false,
+                  message:"you have already submit quiz"
+                })
+              }
+          }
+
         
         const existone = await Quiz.findOne({
             _id:quizID,
-            crt_by:req.user._id,
-
         }) 
         
         if(!existone){
             throw new ApiError(409,"You Don't have this Quiz")
         }
+
+       if(user.quizhistory.indexOf(quizID) !==-1){
+        throw new ApiError(409,"Alredy Submitted")
+       }
+       
+        const questions = await Question.findOne({quizID:quizID})
+        const mcq = questions.questions;
+        
+        for(let i=0;i<mcq.length;i++)
+          {
+            mcq[i].correctAnswer=""
+          }
         
         return res.json({
             success:true,
             message:"Quiz Found",
-            quiz : existone
+            quiz : existone,
+            mcq : mcq
         })
 
        
@@ -213,7 +236,6 @@ const setQuestions = async (req, res) => {
     });
   }
 };
-
 
 
 const validateQuestions = (questions) => {

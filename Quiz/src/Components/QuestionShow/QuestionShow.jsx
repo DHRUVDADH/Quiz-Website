@@ -1,101 +1,108 @@
-import React, { useState } from 'react';
+// QuestionShow.js
+
+import React, { useEffect, useState } from 'react';
 import styles from './QuestionShow.module.css';
+import Loading from '../Loading/Loading';
+import { useParams  , useNavigate} from "react-router-dom";
+import { fetchQuestions, fetchAnswer, updateAnswer , submitQuiz } from '../../services/operation/quiz';
+import { toast } from 'react-toastify';
+
 
 const QuestionShow = () => {
-  const questions = [
-    {
-      id: "q1",
-      question: "What is the capital of France?",
-      options: [
-        { key: "a", ans: "Berlin" },
-        { key: "b", ans: "Madrid" },
-        { key: "c", ans: "Paris" },
-        { key: "d", ans: "Lisbon" }
-      ],
-      correctAnswer: "c",
-      marks: "1"
-    },
-    {
-      id: "q2",
-      question: "What is the sum of 2 and 3?",
-      options: [
-        { key: "a", ans: "3" },
-        { key: "b", ans: "4" },
-        { key: "c", ans: "5" },
-        { key: "d", ans: "6" }
-      ],
-      correctAnswer: "c",
-      marks: "1"
-    },
-    {
-      id: "q3",
-      question: "Which planet is known as the Red Planet?",
-      options: [
-        { key: "a", ans: "Earth" },
-        { key: "b", ans: "Mars" },
-        { key: "c", ans: "Jupiter" },
-        { key: "d", ans: "Saturn" }
-      ],
-      correctAnswer: "b",
-      marks: "1"
-    }
-  ];
+  const { quizID } = useParams();
+  const navigate = useNavigate();
+  const [questions, setQuestions] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [submittedAnswers, setSubmittedAnswers] = useState({}); // State to store submitted answers
 
-  const totalMarks = questions.reduce((acc, q) => acc + parseInt(q.marks), 0);
+  useEffect(() => {
+    // Function to fetch questions and load initial state
+    const fetchData = async () => {
+      setLoading(true);
+      
+      try {
+        const {mcq , success} = await fetchQuestions(quizID ,setQuestions,setSelectedOptions,setLoading , navigate);
+        if(!success){
+          toast.error("Something went wring");
+          return;
+        }
+        setQuestions(mcq);
 
-  const [selectedOptions, setSelectedOptions] = useState(Array(questions.length).fill(null));
-  const [showResults, setShowResults] = useState(false);
-  const [score, setScore] = useState(0);
+        const fetchedAnswers = await fetchAnswer(quizID);
+        setSubmittedAnswers(fetchedAnswers);
 
-  const handleOptionChange = (questionIndex, optionKey) => {
-    const newSelectedOptions = [...selectedOptions];
-    newSelectedOptions[questionIndex] = optionKey;
-    setSelectedOptions(newSelectedOptions);
-  };
+        // Initialize selectedOptions based on fetched answers
+        const initialSelectedOptions = mcq.map(q => {
+          return {
+            _id: q._id,
+            ans: fetchedAnswers[q._id] || null  // Use submitted answer if available
+          };
+        });
+        setSelectedOptions(initialSelectedOptions);
 
-  const handleSubmit = () => {
-    let newScore = 0;
-    questions.forEach((q, index) => {
-      if (selectedOptions[index] === q.correctAnswer) {
-        newScore += parseInt(q.marks);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching quiz details:', error);
+        setLoading(false);
       }
-    });
-    setScore(newScore);
-    setShowResults(true);
+    };
+
+    fetchData(); // Invoke fetchData on component mount
+  }, [quizID]);
+
+  const handleOptionChange = (questionIndex, optionKey, questionID) => {
+    const newSelectedOptions = [...selectedOptions];
+    newSelectedOptions[questionIndex] = { _id: questionID, ans: optionKey };
+    setSelectedOptions(newSelectedOptions);
+
+    // Update answer in the backend
+    updateAnswer(quizID, questionID, optionKey);
   };
+
+  const submitHandler =  () =>{
+    submitQuiz(quizID);
+  }
 
   return (
-    <div className={styles.quizContainer}>
-      <h1 className={styles.quizTitle}>Quiz Title</h1>
-      <div className={styles.quizInfo}>
-        <p className={styles.totalQuestions}>Total Questions: {questions.length}</p>
-        <p className={styles.totalMarks}>Total Marks: {totalMarks}</p>
-      </div>
-      {questions.map((q, questionIndex) => (
-        <div key={q.id} className={styles.questionBlock}>
-          <h2 className={styles.question}>{questionIndex + 1}. {q.question}</h2>
-          <ul className={styles.optionsList}>
-            {q.options.map(option => (
-              <li key={option.key} className={styles.option}>
-                <label>
-                  <input
-                    type="radio"
-                    name={`question-${questionIndex}`}
-                    value={option.key}
-                    checked={selectedOptions[questionIndex] === option.key}
-                    onChange={() => handleOptionChange(questionIndex, option.key)}
-                  />
-                  {option.ans}
-                </label>
-              </li>
-            ))}
-          </ul>
-          <p className={styles.marks}>Marks: {q.marks}</p>
-        </div>
-      ))}
-      <button onClick={handleSubmit} className={styles.submitButton}>Submit</button>
-      {showResults && <div className={styles.results}>Your score: {score}</div>}
-    </div>
+    <div className={styles.main}>
+      {/* {loading ? (
+        <Loading />
+      ) : (
+        <> */}
+          {!questions ? (
+            <p>No Questions</p>
+          ) : (
+            <div className={styles.questionContainer}>
+              {questions.map((q, questionIndex) => (
+                <div key={q._id} className={styles.questionBlock}>
+                  <h2 className={styles.question}>{q.question}</h2>
+                  <ul className={styles.optionsList}>
+                    {q.options.map(option => (
+                      <li key={option.key} className={styles.option}>
+                        <label>
+                          <input
+                            type="radio"
+                            name={`question-${questionIndex}`}
+                            value={option.key}
+                            checked={selectedOptions[questionIndex]?.ans === option.key}
+                            onChange={() => handleOptionChange(questionIndex, option.key, q._id)}
+                          />
+                          {option.ans}
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className={styles.marks}>Marks: {q.marks}</p>
+                </div>
+              ))}
+              <button onClick={submitHandler}>Submit</button>
+            </div>
+          )}
+        {/* </> */}
+      )
+    
+   </div>
   );
 };
 
