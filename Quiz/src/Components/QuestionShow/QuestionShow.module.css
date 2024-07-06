@@ -79,6 +79,12 @@
   border-radius: 5px;
 }
 
+
+.quizdetcom{
+  width:100%;
+}
+
+
 @media (max-width: 768px) {
   .main{
    width: 100vw !important;

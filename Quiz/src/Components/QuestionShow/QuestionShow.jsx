@@ -71,15 +71,15 @@ const QuestionShow = () => {
         <Loading />
       ) : (
         <> */}
-        <>
-        <QuizDetails
+        <div className={styles.quizdetcom}>
+        <QuizDetails 
             subName={'mohil'}
             subID={'123'}
             quizID={'rgf5484gv'}
             totalQuestions={ '6'}
             totalMarks={'7'}
           />
-        </>
+        </div>
           {!questions ? (
             <p>No Questions</p>
           ) : (
