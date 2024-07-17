@@ -4,10 +4,12 @@ import NavbarTutor from '../../Components/NavbarTutor/NavbarTutor'
 import QuizModal from '../../Components/QuizModal/QuizModal'
 import { Outlet } from 'react-router-dom'
 import QuestionShow from '../../Components/QuestionShow/QuestionShow'
+import { useSelector } from 'react-redux'
 
 
 const Tutor = () => {
     const number = 10;
+    const {user} = useSelector(state=>state.profile)
     const [showmodal, setShowmodal] = useState(false);
     const closeModal = () => setShowmodal(false);
 
@@ -35,8 +37,8 @@ const Tutor = () => {
                             <div className={s.navFaculty}>
 
                                 <div className={s.wrap}>
-                                    <div className={s.name}>Dhruv Dadhania</div>
-                                    <div className={s.type}>Tutor</div>
+                                    <div className={s.name}>{user.firstname} {user.lastname}</div>
+                                    <div className={s.type}>{user.usertype}</div>
                                 </div>
 
                                 <img src="../../Assets/arrowlist.svg" />

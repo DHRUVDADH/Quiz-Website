@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import styles from './QuestionShow.module.css';
 import Loading from '../Loading/Loading';
-import { useParams  , useNavigate} from "react-router-dom";
-import { fetchQuestions, fetchAnswer, updateAnswer , submitQuiz } from '../../services/operation/quiz';
+import { useParams, useNavigate } from "react-router-dom";
+import { fetchQuestions, fetchAnswer, updateAnswer, submitQuiz } from '../../services/operation/quiz';
 import { toast } from 'react-toastify';
 import QuizDetails from './QuizDetails';
 
@@ -12,6 +12,7 @@ import QuizDetails from './QuizDetails';
 const QuestionShow = () => {
   const { quizID } = useParams();
   const navigate = useNavigate();
+  const [quizDesc, setQuizDesc] = useState(null);
   const [questions, setQuestions] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
@@ -21,10 +22,10 @@ const QuestionShow = () => {
     // Function to fetch questions and load initial state
     const fetchData = async () => {
       setLoading(true);
-      
+
       try {
-        const {mcq , success} = await fetchQuestions(quizID ,setQuestions,setSelectedOptions,setLoading , navigate);
-        if(!success){
+        const { mcq, success } = await fetchQuestions(quizID, setQuizDesc, setQuestions, setSelectedOptions, setLoading, navigate);
+        if (!success) {
           toast.error("Something went wring");
           return;
         }
@@ -61,29 +62,44 @@ const QuestionShow = () => {
     updateAnswer(quizID, questionID, optionKey);
   };
 
-  const submitHandler =  () =>{
-    submitQuiz(quizID);
+  const submitHandler = () => {
+    submitQuiz(quizID,setLoading,navigate);
   }
 
   return (
     <div className={styles.main}>
-      {/* {loading ? (
+      {console.log()}
+      {loading ? (
         <Loading />
       ) : (
-        <> */}
-        <div className={styles.quizdetcom}>
-        <QuizDetails 
-            subName={'mohil'}
-            subID={'123'}
-            quizID={'rgf5484gv'}
-            totalQuestions={ '6'}
-            totalMarks={'7'}
-          />
-        </div>
+        <>
           {!questions ? (
             <p>No Questions</p>
           ) : (
             <div className={styles.questionContainer}>
+              
+
+              {
+            quizDesc == null ? (
+              <QuizDetails
+                subName={'subName'}
+                subID={'123'}
+                title={quizDesc.title}
+                totalQuestions={'6'}
+                totalMarks={'7'}
+              />
+            ) : (
+              <QuizDetails
+                subName={quizDesc.subName}
+                subID={quizDesc.subId}
+                title={quizDesc.title}
+                totalQuestions={quizDesc.noOfQuestion}
+                totalMarks={quizDesc.totalmarks}
+              />
+            )
+          }
+
+
               {questions.map((q, questionIndex) => (
                 <div key={q._id} className={styles.questionBlock}>
                   <h2 className={styles.question}>{q.question}</h2>
@@ -109,10 +125,10 @@ const QuestionShow = () => {
               <button onClick={submitHandler} className={styles.qsubmitbtn}>Submit</button>
             </div>
           )}
-        {/* </> */}
+        </>
       )
-    
-   </div>
+      }
+    </div>
   );
 };
 

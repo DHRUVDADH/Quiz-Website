@@ -169,7 +169,7 @@ const getAnswer = async (req, res) => {
 
 const submitquizdetail = async (req,res)=>{
     try {
-        const { resultID } = req.body; // if you wnt in query than do it
+        const { resultID } = req.query; // if you wnt in query than do it
         const resultinfo = await Result.findById(resultID).select('-_id -createdAt -__v');
         const user = await User.findById(resultinfo.studentID).select('-_id -password -email -usertype -createdAt -updatedAt -__v -avatar -accesstoken -resulthistory -quizhistory -avtar');
         const QuizQuestion = await Question.findOne({quizID:resultinfo.quizID}).select('-_id -crt_by -createdAt -updatedAt -__v');

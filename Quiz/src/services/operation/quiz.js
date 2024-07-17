@@ -82,7 +82,7 @@ export async function setQuestinos(quizID ,questions, setQuestions,setLoading,na
   setLoading(false);
 }
 
-export async function fetchQuestions(quizID ,setQuestions,setSelectedOptions,setLoading,navigate) {
+export async function fetchQuestions(quizID ,setQuizDesc,setQuestions,setSelectedOptions,setLoading,navigate) {
 
   setLoading(true);
 
@@ -92,7 +92,7 @@ export async function fetchQuestions(quizID ,setQuestions,setSelectedOptions,set
     if (!response.data.success) {
       throw new Error(response.data.message);
     }
-    console.log(response.data)
+    setQuizDesc(response.data.quiz)
     setQuestions(response.data.mcq);
     setSelectedOptions(Array(response.data.mcq.length).fill({ id: null, ans: null }))
     return {mcq:response.data.mcq , success:response.data.success};
@@ -138,9 +138,9 @@ export async function fetchAnswer(quizID ) {
   // setLoading(false);
 }
 
-export async function submitQuiz(quizID ) {
+export async function submitQuiz(quizID,setLoading,navigate ) {
 
-  // setLoading(true);
+  setLoading(true);
 
   try {
     const response = await apiConnector("GET", `http://localhost:3000/api/v1/quizsubmit?quizID=${quizID}`);
@@ -149,12 +149,13 @@ export async function submitQuiz(quizID ) {
       throw new Error(response.data.message);
     }
     toast.success("Saved Successfully");
+    navigate("/");
   } catch (error) {
     toast.error(error.message);
     console.error('Error fetching quiz details:', error);
     return error;
   }
-  // setLoading(false);
+  setLoading(false);
 }
 
 export async function fetchQuesList(setLoading,setUserData) {

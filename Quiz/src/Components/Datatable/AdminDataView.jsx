@@ -26,7 +26,7 @@ const   AdminDataView = ({data , index }) => {
         },
         {
             name: "Result",
-            function: (quizID) => (quizID , "conferenceAcceptance"),
+            function: (quizID) => navigate(`/faculty/${quizID}/result`),
         },
         {
             name: "Copy URL",
@@ -42,7 +42,7 @@ const   AdminDataView = ({data , index }) => {
             <div className="colHeader">{"2024-06-23T17:14:45.110+00:00".split("T")[0] } - {"2024-06-23T17:14:45.110+00:00".split("T")[1].split("+")[0].split(".")[0]}</div>
             <div className="colHeader">{data.totalmarks}</div>
             <div className="colHeader">{data.noOfQuestion}</div>
-            <div className="colHeader ">2</div>
+            <div className="colHeader ">{data.studentResponce.length}</div>
             <div className="colHeader"><Menu data={quizSetting} quizID={data._id} icon={<IoSettingsOutline className='icon-large'/>}/></div>
             
         {showEditModal && <EditDescription setEditModal={setEditModal} quizID={data._id}  />}

@@ -15,6 +15,7 @@ import './App.css'
 import FacultyRoute from './Components/Auth/FacultyRoute'
 import StudentRoute from './Components/Auth/StudentRoute'
 import QuestionShow from './Components/QuestionShow/QuestionShow'
+import DetailedView from './Pages/DetailedView/DetailedView'
 // import DataTable from './Components/DataTable/DataTable'
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/faculty" element={<QuizList />} />
           <Route path="/faculty/:quizID/addquestion" element={<QuestionAdd />} />
           <Route path="/faculty/:quizID/result" element={<Result />} />
+          <Route path="/faculty/:resultID/detaildresult" element={<DetailedView />} />
         </Route>
 
         <Route path="/quiz/:quizID" element={<QuestionShow/>} />
