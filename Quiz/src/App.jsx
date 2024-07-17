@@ -39,9 +39,6 @@ const App = () => {
         <Route path="/student" element={<StudentRoute><StudentDashboard /></StudentRoute>} />
           <Route path="/student/:quizID" element={<StudentRoute><QuestionShow /></StudentRoute>} />
 
-
-        <Route path="/quiz/:quizID" element={<QuestionShow/>} />
-
         <Route path='*' element={<h1>Page Not Found</h1>} />
 
       </Routes>

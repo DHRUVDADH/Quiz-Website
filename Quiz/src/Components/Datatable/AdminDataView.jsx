@@ -30,7 +30,7 @@ const   AdminDataView = ({data , index }) => {
         },
         {
             name: "Copy URL",
-            function: (quizID) => {copy(`localhost:5173/quiz/${quizID}`); toast.success("Copied!")},
+            function: (quizID) => {copy(`localhost:5173/student/${quizID}`); toast.success("Copied!")},
         }
     ]
     return (
