@@ -1,0 +1,74 @@
+.relative{
+    position: relative;
+}
+
+.ProfileDrop_22{
+    display: flex;
+    align-items: center;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+}
+
+.DropDownContainer_22 {
+    position: absolute;
+    top: 118%;
+    right: 0;
+    z-index: 1000;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border: 1px solid rgba(129, 122, 122, 0.574);
+    overflow: hidden;
+    border-radius: 0.375rem;
+    border-width: 1px;
+    background-color: #fffefe;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    max-width:190px ;
+    min-width: 160px;
+  }
+  
+  .imageAtDropDown{
+    width: 30px;
+    height: 30px; /* Setting height equal to width for a square aspect ratio */
+    border-radius: 50%; /* for a rounded full shape */
+    object-fit: cover; /* to maintain aspect ratio while covering */
+  }
+  
+
+  .linkAtDropDown_22 {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 0.25rem; /* You can adjust the gap value as needed */
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 12px;
+    padding-right: 12px;
+    font-size: 0.875rem; /* Corresponds to text-sm in Tailwind */
+    color: #2d2d2d; /* Corresponds to text-richblack-100 in Tailwind */
+  }
+  
+  .linkAtDropDown_22:hover {
+    background-color: #e4e1e1; /* Corresponds to bg-richblack-700 in Tailwind */
+    color: black; /* Corresponds to text-richblack-25 in Tailwind */
+    cursor: pointer;
+  }
+
+
+  .inputSpecial{
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+
+  .icon-large{
+    width: 20px;
+    height:20px;
+    cursor: pointer;
+    z-index: 0;
+  }
+
+  .header-title-row{
+    z-index: 1;
+  }

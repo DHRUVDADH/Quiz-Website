@@ -191,7 +191,7 @@ const studentDashboard = async (req,res)=>{
 
         const quizhistorydata = await Quiz.find({_id:{$in:quizhistory}}).select('title subName subId');
         const quizresult = await Result.find({quizID:{$in:quizhistory}}).select('earnmarks quizID')
-        console.log("ds",quizhistorydata)
+        
 
         return res.status(200).json({
             success:true,

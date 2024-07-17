@@ -11,11 +11,13 @@ import OpenRoute from './Components/Auth/OpenRoute'
 import QuizList from './Pages/QuizList/QuizList'
 import Result from './Components/Result/Result'
 
+
 import './App.css'
 import FacultyRoute from './Components/Auth/FacultyRoute'
 import StudentRoute from './Components/Auth/StudentRoute'
 import QuestionShow from './Components/QuestionShow/QuestionShow'
 import DetailedView from './Pages/DetailedView/DetailedView'
+import StudentDashboard from './Pages/StudentDash/StudentDashboard'
 // import DataTable from './Components/DataTable/DataTable'
 
 const App = () => {
@@ -33,6 +35,10 @@ const App = () => {
           <Route path="/faculty/:quizID/result" element={<Result />} />
           <Route path="/faculty/:resultID/detaildresult" element={<DetailedView />} />
         </Route>
+
+        <Route path="/student" element={<StudentRoute><StudentDashboard /></StudentRoute>} />
+          <Route path="/student/:quizID" element={<StudentRoute><QuestionShow /></StudentRoute>} />
+
 
         <Route path="/quiz/:quizID" element={<QuestionShow/>} />
 

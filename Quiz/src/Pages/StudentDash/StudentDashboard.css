@@ -1,0 +1,39 @@
+.outerCenter{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.fullScreen{
+    max-width: 2000px;
+    width: 100%;
+    height: 100%;
+}
+
+h1{
+    display: block;
+    width: 100%;
+    padding: 0 0 10px 28px;
+}
+.outletSection{
+    margin-top: 6%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dataTable-container {
+    width: 97%;
+    height: 78vh;
+    padding: 2vw;
+    border-radius: 1.5vw;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    background-color: #fff;
+    margin-bottom: 20px;
+}
+
+.row-content{
+    width: 100% !important;
+}
