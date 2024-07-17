@@ -29,5 +29,5 @@ router.get('/facultydash',verifyjwt,verifyFaculty,faculty_dashboard);
 router.get('/quizresponse',verifyjwt,verifyFaculty,getquizres);
 
 router.get('/submitquizdetail',verifyjwt,submitquizdetail);
-router.get('/studentdesh',verifyjwt,)
+
 module.exports= router

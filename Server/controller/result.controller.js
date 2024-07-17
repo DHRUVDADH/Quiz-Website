@@ -34,7 +34,7 @@ const quizsubmit = async (req, res) => {
         question.forEach((ques) => {
             if (ques._id in answer) {
                 if (answer[ques._id] === ques.correctAnswer) {
-                    score++;
+                    score += ques.marks;
                 }
             } else {
                 throw new ApiError(409, "Missing Answer")

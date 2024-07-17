@@ -177,37 +177,46 @@ const getdetail = async (req,res)=>{
     }
 }
 
-const studentDashboard = async (req,res)=>{
-    try{
-        if(req.user.usertype!=='student'){
-            return res.status(400).json({
-                success:false,
-                message:"you are not valid author"
-            })
-        }
-        
-        const user = await User.findById(req.user._id); 
-        const quizhistory = user.quizhistory;
 
-        const quizhistorydata = await Quiz.find({_id:{$in:quizhistory}}).select('title subName subId');
-        const quizresult = await Result.find({quizID:{$in:quizhistory}}).select('earnmarks quizID')
-        
+const studentDashboard = async (req, res) => {
+    try {
+        if (req.user.usertype !== 'student') {
+            return res.status(400).json({
+                success: false,
+                message: "You are not a valid author"
+            });
+        }
+
+        const user = await User.findById(req.user._id).populate('quizhistory', 'title subName subId');
+        const quizhistory = user.quizhistory.map(q => q._id);
+
+        const quizresult = await Result.find({ quizID: { $in: quizhistory }, studentID: req.user._id })
+            .select('earnmarks quizID')
+            .lean();
+
+        // Combine quiz history and results
+        const quizData = user.quizhistory.map(quiz => {
+            const result = quizresult.find(r => r.quizID.toString() === quiz._id.toString());
+            return {
+                ...quiz._doc,
+                earnmarks: result ? result.earnmarks : null
+            };
+        });
 
         return res.status(200).json({
-            success:true,
-            message:"student dashboard fetch successfully",
-            quizhistorydata:quizhistorydata,
-            quizresult:quizresult
-        })
+            success: true,
+            message: "Student dashboard fetched successfully",
+            quizhistorydata: quizData
+        });
 
-    }catch(e)
-    {
+    } catch (e) {
         res.status(409).json({
-            success:false,
-            message:"error in student dashboard component"
-        })
+            success: false,
+            message: "Error in student dashboard component"
+        });
     }
-}
+};
+
 
 const quiz_response = async (req,res)=>{
     try{
