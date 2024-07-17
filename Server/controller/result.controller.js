@@ -49,13 +49,13 @@ const quizsubmit = async (req, res) => {
             await quiz.save();
         }
 
-        const student = await User.findById(user._id)
-        if(!student)
-            {
-                throw new ApiError(409,"user not get successfully")
-            }
-        student.quizhistory.push(quizID)
-        await student.save();
+        // const student = await User.findById(user._id)
+        // if(!student)
+        //     {
+        //         throw new ApiError(409,"user not get successfully")
+        //     }
+        // student.quizhistory.push(quizID)
+        // await student.save();
 
         const updatedStudent = await User.findByIdAndUpdate(
             req.user._id,

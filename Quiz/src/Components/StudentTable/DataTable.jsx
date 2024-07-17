@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineFilterAltOff } from "react-icons/md";
 import AdminDataView from "./StudentTable";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import Filter from './Filter';
 import { AiOutlineSortAscending, AiOutlineSortDescending } from "react-icons/ai";
 
-const DataTable = ({ userData}) => {
+const DataTable = ({ userData }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredData, setFilteredData] = useState(userData);
-    const navigate  = useNavigate();
+    const navigate = useNavigate();
 
     // useEffect(() => {
     //     let filtered = userData;
@@ -50,16 +50,16 @@ const DataTable = ({ userData}) => {
                         type="text"
                         placeholder="Search"
                         id="searchInput"
-                       
+
                     />
-                    <MdOutlineFilterAltOff className="iconBigger"  />
+                    <MdOutlineFilterAltOff className="iconBigger" />
                 </div>
             </div>
             <div className="data-table-inner">
                 <div className="header-title-row">
                     <div className="colHeader DataNumber">Number</div>
                     <div className="colHeader">
-                        Quiz Title 
+                        Quiz Title
                     </div>
                     <div className="colHeader">Subject ID  </div>
                     <div className="colHeader">Subject ID  </div>
@@ -68,17 +68,21 @@ const DataTable = ({ userData}) => {
                     <div className="colHeader">Action</div>
                 </div>
 
-                {/* {filteredData.map((data, index) => (
-                    <div className="row-content" key={data._id}>
-                            <AdminDataView data={data} index={index} />
-                    </div>
-                ))} */}
 
-                <div className="row-content">
-                    <AdminDataView />
-                </div>
+                {
+                    filteredData.length == 0 ? (<h1>No data Found</h1>) : (
+                        <>
+                            {
+                                filteredData.map((data) => (
+                                    <div className="row-content" >
+                                        <AdminDataView data={data} />
+                                    </div>))
+                            }
+                        </>
+                    )
+                }
             </div>
-           
+
         </div>
     );
 };

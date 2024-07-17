@@ -5,6 +5,8 @@ const Result=require('../model/result.model')
 const { ApiError } = require('../utils/ApiError');
 const bcrypt=require('bcrypt')
 const jwt = require('jsonwebtoken')
+const moment = require('moment-timezone');
+
 
 const tokengenerater=async (user)=>{
     try {
@@ -191,7 +193,7 @@ const studentDashboard = async (req, res) => {
         const quizhistory = user.quizhistory.map(q => q._id);
 
         const quizresult = await Result.find({ quizID: { $in: quizhistory }, studentID: req.user._id })
-            .select('earnmarks quizID')
+            .select('earnmarks quizID updatedAt')
             .lean();
 
         // Combine quiz history and results
@@ -199,7 +201,8 @@ const studentDashboard = async (req, res) => {
             const result = quizresult.find(r => r.quizID.toString() === quiz._id.toString());
             return {
                 ...quiz._doc,
-                earnmarks: result ? result.earnmarks : null
+                earnmarks: result ? result.earnmarks : null,
+                updatedAt: result ? moment(result.updatedAt).tz('Asia/Kolkata').format() : null
             };
         });
 

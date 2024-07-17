@@ -1,21 +1,18 @@
-import React,{useState} from 'react'
-import {useNavigate} from "react-router-dom"
-import { useDispatch } from 'react-redux'
+import React from 'react'
+
 import { FaEye } from "react-icons/fa";
 
 
-const   StudentTable = ({data , index }) => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+const   StudentTable = ({data}) => {
 
     return (
         <>
             <div className="colHeader DataNumber">1</div>
-            <div className="colHeader">TTitle</div>
-            <div className="colHeader">SubID</div>
-            <div className="colHeader">SubNAme</div>
-            <div className="colHeader">12</div>
-            <div className="colHeader">12</div>
+            <div className="colHeader">{data.title}</div>
+            <div className="colHeader">{data.subId}</div>
+            <div className="colHeader">{data.subName}</div>
+            <div className="colHeader">{data.updatedAt.split('T')[0]} {data.updatedAt.split('T')[1].split('+')[0]} </div>
+            <div className="colHeader">{data.earnmarks || '-'}</div>
             <div className="colHeader"><FaEye /></div>
             
         </>

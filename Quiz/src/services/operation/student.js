@@ -13,8 +13,7 @@ export async function fetchStudentDashboard(setLoading,setData) {
         throw new Error(response.data.message);
     }
 
-    setData(response.data);
-    console.log(response.data)
+    setData(response.data.quizhistorydata);
 
     } catch (error) {
         toast.error(error.message);
