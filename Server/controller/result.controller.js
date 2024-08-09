@@ -9,77 +9,77 @@ const quizsubmit = async (req, res) => {
         const user = req.user;
         const { quizID } = req.query;
 
-        const result_detail = await Result.findOne({ quizID: quizID });
+        // Fetch the specific result entry for the student and quiz
+        const result_detail = await Result.findOne({ quizID: quizID, studentID: user._id });
 
         if (!result_detail) {
             return res.status(404).json({
                 success: false,
-                message: "server error in result"
-            })
+                message: "No result entry found for the student and quiz"
+            });
         }
 
-        const answer = result_detail.answer;
+        const studentAnswers = result_detail.answer; // Ensure this is the correct answers object
         const questions_detail = await Question.findOne({ quizID: quizID });
 
         if (!questions_detail) {
             return res.status(404).json({
                 success: false,
-                message: "server error in question"
-            })
+                message: "No questions found for the quiz"
+            });
         }
 
-        const question = questions_detail.questions;
+        const questions = questions_detail.questions;
+        let score = 0;
 
-        var score = Number(0);
-        question.forEach((ques) => {
-            if (ques._id in answer) {
-                if (answer[ques._id] === ques.correctAnswer) {
+        // Iterate through questions and calculate score
+        questions.forEach((ques) => {
+            if (ques._id in studentAnswers) {
+                if (studentAnswers[ques._id] === ques.correctAnswer) {
                     score += Number(ques.marks);
-                    console.log('erg',score)
                 }
             } else {
-                throw new ApiError(409, "Missing Answer")
+                console.error(`Missing answer for question ID: ${ques._id}`);
+                // You might want to continue or handle missing answers differently
             }
         });
 
-        result_detail.earnmarks=score;
-        const finRES = await result_detail.save();
-        const quiz =await Quiz.findById(quizID)
-        if(user.usertype==='student'){
-            quiz.studentResponce.push(user._id)
-            await quiz.save();
+        // Update result with earned marks
+        result_detail.earnmarks = score;
+        await result_detail.save();
+
+        // Update quiz response
+        const quiz = await Quiz.findById(quizID);
+        if (user.usertype === 'student') {
+            if (!quiz.studentResponce.includes(user._id)) {
+                quiz.studentResponce.push(user._id);
+                await quiz.save();
+            }
         }
 
-        // const student = await User.findById(user._id)
-        // if(!student)
-        //     {
-        //         throw new ApiError(409,"user not get successfully")
-        //     }
-        // student.quizhistory.push(quizID)
-        // await student.save();
-
-        const updatedStudent = await User.findByIdAndUpdate(
-            req.user._id,
+        // Update student quiz history
+        await User.findByIdAndUpdate(
+            user._id,
             { $addToSet: { quizhistory: quizID } },
             { new: true, upsert: true }
-          );
-
+        );
 
         return res.status(200).json({
             success: true,
-            message: "quiz submit successfully",
+            message: "Quiz submitted successfully",
+            earnedMarks: score // Optional: include the score in the response
         });
 
     } catch (e) {
-
-        console.log("error in quiz submit controller", e);
-        res.json({
-            ...e,
-            message: e.message
+        console.error("Error in quiz submit controller:", e);
+        res.status(500).json({
+            success: false,
+            message: 'An error occurred during quiz submission',
+            error: e.message
         });
-        
     }
 }
+
 
 const updateAnswer = async (req, res) => {
     try {
