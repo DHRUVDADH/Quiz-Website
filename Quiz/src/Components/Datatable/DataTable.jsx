@@ -20,7 +20,7 @@ const DataTable = ({ userData, id }) => {
 
         if (searchQuery) {
             filtered = filtered.filter(data =>
-                data.paperTitle.toLowerCase().includes(searchQuery.toLowerCase())
+                data.title.toLowerCase().includes(searchQuery.toLowerCase())
             );
         }
 
@@ -56,26 +56,6 @@ const DataTable = ({ userData, id }) => {
 
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
-    };
-
-    const handleApprove = () => {
-        setStatusFilter('approved');
-    };
-
-    const handleInprogress = () => {
-        setStatusFilter('inprogress');
-    };
-
-    const handleReject = () => {
-        setStatusFilter('rejected');
-    };
-
-    const handlePending = () => {
-        setStatusFilter('pending');
-    };
-
-    const handleReturned = () => {
-        setStatusFilter('returned');
     };
 
     const handleSortOrderChange = () => {
@@ -121,18 +101,7 @@ const DataTable = ({ userData, id }) => {
             icon: <AiOutlineSortDescending />,
             callBack: handleDateSortOrderChange
         },
-        {
-            id: "date",
-            title: null,
-            icon: <input
-                type="text"
-                placeholder="Enter Subject Code"
-                className="inputSpecial"
-                value={specificDate}
-                onChange={handleSpecificDateChange}
-            />,
-            callBack: handleDateSortOrderChange
-        },
+       
         {
             id: "status",
             title: "Ascending",
