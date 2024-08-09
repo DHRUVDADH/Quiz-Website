@@ -10,27 +10,27 @@ const DataTable = ({ userData }) => {
     const [filteredData, setFilteredData] = useState(userData);
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     let filtered = userData;
+    useEffect(() => {
+        let filtered = userData;
 
-    //     if (searchQuery) {
-    //         filtered = filtered.filter(data =>
-    //             data.paperTitle.toLowerCase().includes(searchQuery.toLowerCase())
-    //         );
-    //     }
+        if (searchQuery) {
+            filtered = filtered.filter(data =>
+                data.paperTitle.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+        }
 
-    //     setFilteredData(filtered);
-    // }, [searchQuery,userData]);
+        setFilteredData(filtered);
+    }, [searchQuery,userData]);
 
-    // const handleSearchChange = (event) => {
-    //     setSearchQuery(event.target.value);
-    // };
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
 
-    // const clearFilters = () => {
-    //     setSearchQuery("");
-    //     setStatusFilter("all");
-    //     setSpecificDate("");
-    // };
+    const clearFilters = () => {
+        setSearchQuery("");
+        setStatusFilter("all");
+        setSpecificDate("");
+    };
 
 
 
@@ -39,18 +39,12 @@ const DataTable = ({ userData }) => {
             <div className="header-row">
                 Applications
                 <div className="search-wrapper">
-                    {/* <input
+                    <input
                         type="text"
                         placeholder="Search"
                         id="searchInput"
                         value={searchQuery}
                         onChange={handleSearchChange}
-                    /> */}
-                    <input
-                        type="text"
-                        placeholder="Search"
-                        id="searchInput"
-
                     />
                     <MdOutlineFilterAltOff className="iconBigger" />
                 </div>
@@ -70,7 +64,7 @@ const DataTable = ({ userData }) => {
 
 
                 {
-                    filteredData.length == 0 ? (<h1>No data Found</h1>) : (
+                    (filteredData.length == 0 || filteredData==null) ? (<h1>No data Found</h1>) : (
                         <>
                             {
                                 filteredData.map((data) => (

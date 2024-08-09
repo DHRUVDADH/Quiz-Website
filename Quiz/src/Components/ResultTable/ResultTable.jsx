@@ -19,6 +19,7 @@ const ResultTable = ({ userData }) => {
         let filtered = userData;
 
         if (searchQuery) {
+            // console.log("here search query",searchQuery)
             filtered = filtered.filter(data =>
                 data.name.toLowerCase().includes(searchQuery.toLowerCase())
             );
@@ -55,6 +56,7 @@ const ResultTable = ({ userData }) => {
     };
 
     const handleSearchChange = (event) => {
+        event.preventDefault();
         setSearchQuery(event.target.value);
     };
 

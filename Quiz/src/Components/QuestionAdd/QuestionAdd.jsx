@@ -15,6 +15,7 @@ const QuestionAdd = () => {
 
 
   useEffect(() => {
+    
     const localStorageQuestions = JSON.parse(localStorage.getItem(`${quizID}-questions`));
     if (localStorageQuestions && localStorageQuestions.length > 0) {
       setQuestions(localStorageQuestions);

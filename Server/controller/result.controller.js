@@ -30,11 +30,12 @@ const quizsubmit = async (req, res) => {
 
         const question = questions_detail.questions;
 
-        var score = 0;
+        var score = Number(0);
         question.forEach((ques) => {
             if (ques._id in answer) {
                 if (answer[ques._id] === ques.correctAnswer) {
-                    score += ques.marks;
+                    score += Number(ques.marks);
+                    console.log('erg',score)
                 }
             } else {
                 throw new ApiError(409, "Missing Answer")
@@ -169,7 +170,7 @@ const getAnswer = async (req, res) => {
 
 const submitquizdetail = async (req,res)=>{
     try {
-        const { resultID } = req.query; // if you wnt in query than do it
+        const { resultID } = req.query; 
         const resultinfo = await Result.findById(resultID).select('-_id -createdAt -__v');
         const user = await User.findById(resultinfo.studentID).select('-_id -password -email -usertype -createdAt -updatedAt -__v -avatar -accesstoken -resulthistory -quizhistory -avtar');
         const QuizQuestion = await Question.findOne({quizID:resultinfo.quizID}).select('-_id -crt_by -createdAt -updatedAt -__v');

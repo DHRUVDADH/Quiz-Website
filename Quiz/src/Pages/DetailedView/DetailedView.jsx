@@ -17,7 +17,8 @@ const DetailedView = () => {
                 loading ? (<h1>Loading..</h1>) : (<>
                     {
                         data == null ? (<h1>Data Not Found</h1>) : (<>
-                            <>
+                            <div className={s.resultContainer}>
+                            <div className={s.resultContainerCover}>
                                 <div className={s.description}>
                                     <div className={s.quizCover}>
                                         <div className={s.descriptionText}>
@@ -79,7 +80,8 @@ const DetailedView = () => {
                                         }
                                     </div>
                                 </div>
-                            </>
+                            </div>
+                            </div>
                         </>)
                     }
                 </>)

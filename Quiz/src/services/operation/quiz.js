@@ -34,17 +34,17 @@ export async function getQuestionEdit(quizID ,setQuestions,setInitialQuestionCou
   setLoading(true);
 
   try {
-    const response = await apiConnector("GET", `http://localhost:3000/api/v1/quizdetails?quizID=${quizID}`);
+    const response = await apiConnector("GET", `http://localhost:3000/api/v1/getquestions?quizID=${quizID}`);
 
     if (!response.data.success) {
       throw new Error('Failed to fetch quiz details');
     }
 
-    const { success, quiz, question } = response.data;
+    const { success, quiz, mcq } = response.data;
     if (success) {
-      if (question && question.length > 0) {
-        setQuestions(question);
-        localStorage.setItem(`${quizID}-questions`, JSON.stringify(question));
+      if (mcq && mcq.length > 0) {
+        setQuestions(mcq);
+        localStorage.setItem(`${quizID}-questions`, JSON.stringify(mcq));
       } else {
         setInitialQuestionCount(quiz.noOfQuestion);
         initializeQuestions(quiz.noOfQuestion);
